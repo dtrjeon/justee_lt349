@@ -1,0 +1,2050 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>제349회 임상훈련 진행 매뉴얼 ver10</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Noto+Serif+KR:wght@600;900&display=swap');
+
+  :root {
+    --navy: #1a2f5a;
+    --blue: #2563eb;
+    --sky: #3b82f6;
+    --teal: #0891b2;
+    --light: #e0effe;
+    --bg: #f0f6ff;
+    --white: #ffffff;
+    --gray: #6b7280;
+    --dark: #111827;
+    --success: #10b981;
+    --warn: #f59e0b;
+    --card-shadow: 0 2px 12px rgba(37,99,235,0.10);
+    --radius: 14px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--bg);
+    color: var(--dark);
+    min-height: 100vh;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* ── TOP HEADER ── */
+  .app-header {
+    background: var(--navy);
+    color: white;
+    padding: 16px 20px 14px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+  }
+  .app-header h1 {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 16px;
+    font-weight: 900;
+    letter-spacing: -0.3px;
+    line-height: 1.3;
+  }
+  .app-header p {
+    font-size: 11px;
+    color: #93c5fd;
+    margin-top: 2px;
+    font-weight: 300;
+  }
+
+  /* ── TABS ── */
+  .tabs {
+    display: flex;
+    background: var(--navy);
+    padding: 0 8px 0;
+    gap: 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    border-bottom: 3px solid var(--blue);
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    color: #93c5fd;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 10px 12px 8px;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -3px;
+    transition: all .2s;
+    white-space: nowrap;
+  }
+  .tab-btn.active {
+    color: white;
+    border-bottom-color: #60a5fa;
+    font-weight: 700;
+  }
+
+  /* ── MAIN CONTENT ── */
+  .content { padding: 16px; max-width: 600px; margin: 0 auto; }
+
+  /* ── DASHBOARD ── */
+  .dash-info {
+    background: var(--navy);
+    color: white;
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    margin-bottom: 16px;
+  }
+  .dash-info h2 {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 18px;
+    font-weight: 900;
+    margin-bottom: 10px;
+  }
+  .dash-meta {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .dash-meta span {
+    background: rgba(255,255,255,0.15);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .progress-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .prog-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 14px;
+    box-shadow: var(--card-shadow);
+    cursor: pointer;
+    transition: transform .15s, box-shadow .15s;
+    position: relative;
+    overflow: hidden;
+  }
+  .prog-card:active { transform: scale(0.97); }
+  .prog-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--c, var(--blue));
+  }
+  .prog-card .team-name {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--gray);
+    margin-bottom: 6px;
+    letter-spacing: 0.3px;
+  }
+  .prog-card .progress-bar {
+    background: #e5e7eb;
+    border-radius: 99px;
+    height: 6px;
+    margin-bottom: 6px;
+    overflow: hidden;
+  }
+  .prog-card .progress-fill {
+    height: 100%;
+    border-radius: 99px;
+    background: var(--c, var(--blue));
+    transition: width .5s ease;
+  }
+  .prog-card .prog-nums {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .prog-card .prog-pct {
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--c, var(--blue));
+  }
+  .prog-card .prog-frac {
+    font-size: 11px;
+    color: var(--gray);
+  }
+
+  /* ── TEAM SECTION ── */
+  .team-header {
+    background: var(--navy);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    color: white;
+    margin-bottom: 12px;
+  }
+  .team-header h2 {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 17px;
+    font-weight: 900;
+    margin-bottom: 4px;
+  }
+  .team-header .team-meta { font-size: 12px; color: #93c5fd; line-height: 1.8; }
+
+  .card {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--card-shadow);
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  .card-title {
+    padding: 12px 16px 10px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--navy);
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-title .icon {
+    width: 22px; height: 22px;
+    border-radius: 6px;
+    background: var(--light);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+  }
+  .card-body { padding: 12px 16px; }
+
+  /* ── CHECKLIST ── */
+  .checklist { list-style: none; }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px solid #f5f5f5;
+    cursor: pointer;
+    transition: background .1s;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li:active { background: #f8faff; }
+
+  .check-box {
+    width: 20px; height: 20px;
+    border-radius: 6px;
+    border: 2px solid #d1d5db;
+    flex-shrink: 0;
+    margin-top: 1px;
+    transition: all .2s;
+    display: flex; align-items: center; justify-content: center;
+    background: white;
+  }
+  .check-box.checked {
+    background: var(--success);
+    border-color: var(--success);
+  }
+  .check-box.checked::after {
+    content: '✓';
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .check-text {
+    flex: 1;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--dark);
+    transition: color .2s;
+  }
+  .check-text.done {
+    color: #9ca3af;
+    text-decoration: line-through;
+  }
+  .check-assignee {
+    font-size: 10px;
+    color: var(--sky);
+    font-weight: 600;
+    background: #eff6ff;
+    padding: 2px 6px;
+    border-radius: 99px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  /* ── ROLE LIST ── */
+  .role-list { list-style: none; }
+  .role-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 7px 0;
+    font-size: 13px;
+    line-height: 1.5;
+    border-bottom: 1px solid #f5f5f5;
+    color: var(--dark);
+  }
+  .role-list li:last-child { border-bottom: none; }
+  .role-list li::before {
+    content: '•';
+    color: var(--blue);
+    font-weight: 900;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ── INFO TABLE ── */
+  .info-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .info-table tr { border-bottom: 1px solid #f0f0f0; }
+  .info-table tr:last-child { border-bottom: none; }
+  .info-table th {
+    text-align: left;
+    padding: 8px 10px;
+    background: #f8faff;
+    color: var(--navy);
+    font-weight: 700;
+    width: 30%;
+    vertical-align: top;
+  }
+  .info-table td {
+    padding: 8px 10px;
+    color: var(--dark);
+    line-height: 1.5;
+  }
+
+  /* ── LOCATION TABLE ── */
+  .loc-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .loc-table th {
+    background: var(--navy);
+    color: white;
+    padding: 8px 10px;
+    font-weight: 700;
+    text-align: center;
+  }
+  .loc-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid #f0f0f0;
+    line-height: 1.5;
+  }
+  .loc-table tr:last-child td { border-bottom: none; }
+  .loc-table tr:nth-child(even) td { background: #f8faff; }
+
+  /* ── SCHEDULE STRIP ── */
+  .day-strip {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+    margin-bottom: 12px;
+  }
+  .day-strip::-webkit-scrollbar { display: none; }
+  .day-btn {
+    flex-shrink: 0;
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 8px 14px;
+    cursor: pointer;
+    text-align: center;
+    transition: all .2s;
+  }
+  .day-btn.active {
+    border-color: var(--blue);
+    background: var(--blue);
+    color: white;
+  }
+  .day-btn .day { font-size: 11px; font-weight: 700; }
+  .day-btn .date { font-size: 10px; opacity: 0.7; margin-top: 2px; }
+
+  .schedule-item {
+    display: flex;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+    align-items: flex-start;
+  }
+  .schedule-item:last-child { border-bottom: none; }
+  .sch-time {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--blue);
+    width: 72px;
+    flex-shrink: 0;
+    padding-top: 2px;
+  }
+  .sch-content { flex: 1; }
+  .sch-title { font-size: 13px; font-weight: 600; color: var(--dark); margin-bottom: 2px; }
+  .sch-detail { font-size: 11px; color: var(--gray); }
+  .sch-badge {
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 99px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .badge-lecture { background: #eff6ff; color: var(--blue); }
+  .badge-field { background: #f0fdf4; color: var(--success); }
+  .badge-meal { background: #fff7ed; color: var(--warn); }
+  .badge-ceremony { background: #fdf4ff; color: #9333ea; }
+
+  /* ── SUMMARY STATS ── */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .stat-box {
+    background: white;
+    border-radius: 12px;
+    padding: 14px 10px;
+    text-align: center;
+    box-shadow: var(--card-shadow);
+  }
+  .stat-box .stat-num {
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--navy);
+    line-height: 1;
+  }
+  .stat-box .stat-label {
+    font-size: 10px;
+    color: var(--gray);
+    margin-top: 4px;
+    font-weight: 500;
+  }
+
+  /* ── NOTICE BOX ── */
+  .notice {
+    background: #fffbeb;
+    border-left: 4px solid var(--warn);
+    border-radius: 0 10px 10px 0;
+    padding: 10px 14px;
+    font-size: 12px;
+    line-height: 1.6;
+    color: #92400e;
+    margin-bottom: 10px;
+  }
+
+  /* ── VEHICLE TABLE ── */
+  .vehicle-cards { display: flex; flex-direction: column; gap: 8px; }
+  .vehicle-card {
+    background: white;
+    border-radius: 10px;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: var(--card-shadow);
+    border-left: 4px solid var(--c, var(--blue));
+  }
+  .v-day {
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--c, var(--blue));
+    width: 44px;
+    flex-shrink: 0;
+    text-align: center;
+  }
+  .v-day small { display: block; font-size: 10px; font-weight: 400; color: var(--gray); }
+  .v-info { flex: 1; }
+  .v-name { font-size: 14px; font-weight: 700; color: var(--dark); }
+  .v-group { font-size: 11px; color: var(--gray); margin-top: 2px; }
+  .v-badge {
+    font-size: 11px;
+    background: var(--light);
+    color: var(--blue);
+    padding: 4px 8px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+
+  /* ── RESET BTN ── */
+  .reset-btn {
+    background: none;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 11px;
+    color: var(--gray);
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  .reset-btn:active { background: #f5f5f5; }
+
+  /* ── HIDDEN ── */
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+  .sub-content { display: none; }
+  .sub-content.active { display: block; }
+
+  /* ── CUESHEET ── */
+  .cue-table { width:100%; border-collapse:collapse; font-size:12px; }
+  .cue-table th { background:var(--navy); color:white; padding:7px 8px; text-align:center; font-weight:700; }
+  .cue-table td { padding:7px 8px; border-bottom:1px solid #f0f0f0; vertical-align:top; line-height:1.5; }
+  .cue-table tr:nth-child(even) td { background:#f8faff; }
+  .cue-time { font-weight:700; color:var(--blue); white-space:nowrap; }
+  .cue-dur { color:var(--gray); text-align:center; font-size:11px; }
+  .cue-note { font-size:11px; color:var(--gray); }
+
+  /* ── MEMBERS ── */
+  .member-table { width:100%; border-collapse:collapse; font-size:11px; }
+  .member-table th { background:var(--navy); color:white; padding:6px 6px; text-align:center; font-weight:700; }
+  .member-table td { padding:6px 6px; border-bottom:1px solid #f0f0f0; text-align:center; vertical-align:middle; }
+  .member-table tr:nth-child(even) td { background:#f8faff; }
+  .dot-y { color:var(--success); font-weight:900; }
+  .dot-n { color:#e5e7eb; }
+
+  /* ── MEAL TABLE ── */
+  .meal-table { width:100%; border-collapse:collapse; font-size:11px; }
+  .meal-table th { background:var(--navy); color:white; padding:7px 6px; text-align:center; font-weight:700; }
+  .meal-table td { padding:6px 6px; border:1px solid #e5e7eb; vertical-align:top; line-height:1.6; font-size:11px; }
+  .meal-table .meal-label { background:#f0f6ff; font-weight:700; color:var(--navy); text-align:center; width:40px; }
+
+  /* ── VENUE ── */
+  .venue-section { margin-bottom:12px; }
+  .room-badge { display:inline-block; background:var(--navy); color:white; border-radius:6px; padding:2px 8px; font-size:11px; font-weight:700; margin-right:6px; }
+  .cell-list { font-size:11px; color:var(--dark); line-height:1.8; }
+
+  /* ── BUS TABLE ── */
+  .bus-table { width:100%; border-collapse:collapse; font-size:12px; }
+  .bus-table th { background:var(--navy); color:white; padding:7px 8px; text-align:center; }
+  .bus-table td { padding:7px 8px; border-bottom:1px solid #f0f0f0; text-align:center; }
+
+  /* ── PRAYER TABLE ── */
+  .prayer-table { width:100%; border-collapse:collapse; font-size:10px; }
+  .prayer-table th { background:var(--navy); color:white; padding:5px 4px; text-align:center; }
+  .prayer-table td { padding:5px 4px; border:1px solid #e5e7eb; vertical-align:top; line-height:1.6; font-size:10px; }
+  .prayer-table .pt-head { background:#f0f6ff; font-weight:700; text-align:center; }
+
+</style>
+</head>
+<body>
+
+<div class="app-header">
+  <h1>제349회 국제전도폭발 한국지도자 임상훈련</h1>
+  <p>진행 매뉴얼 · 지구촌교회 · 2026.6.8~12 · <span style="background:rgba(255,255,255,0.2);border-radius:4px;padding:1px 6px;font-weight:600">ver10</span></p>
+</div>
+
+<div class="tabs" id="mainTabs">
+  <button class="tab-btn active" onclick="switchTab('dashboard')">📊 현황</button>
+  <button class="tab-btn" onclick="switchTab('schedule')">🗓 일정</button>
+  <button class="tab-btn" onclick="switchTab('teams')">👥 팀별</button>
+  <button class="tab-btn" onclick="switchTab('checklist')">✅ 점검표</button>
+  <button class="tab-btn" onclick="switchTab('cuesheet')">🎬 큐시트</button>
+  <button class="tab-btn" onclick="switchTab('venue')">🏢 장소</button>
+  <button class="tab-btn" onclick="switchTab('members')">📋 명단</button>
+  <button class="tab-btn" onclick="switchTab('meals')">🍽 식단</button>
+  <button class="tab-btn" onclick="switchTab('info')">ℹ 안내</button>
+</div>
+
+<!-- ══════════════════ DASHBOARD ══════════════════ -->
+<div id="tab-dashboard" class="tab-content active">
+<div class="content">
+
+  <div class="dash-info">
+    <h2>제349회 임상훈련</h2>
+    <div class="dash-meta">
+      <span>📅 6월 8일(월)~12일(금)</span>
+      <span>📍 지구촌교회 712호</span>
+      <span>🏨 더트리니티 어반스위트</span>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-box">
+      <div class="stat-num" id="totalChecked">0</div>
+      <div class="stat-label">완료 항목</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num" id="totalItems">0</div>
+      <div class="stat-label">전체 항목</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num" id="totalPct">0%</div>
+      <div class="stat-label">전체 진행률</div>
+    </div>
+  </div>
+
+  <div class="progress-grid" id="progressGrid">
+    <!-- JS로 생성 -->
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════════════ SCHEDULE ══════════════════ -->
+<div id="tab-schedule" class="tab-content">
+<div class="content">
+
+  <div class="day-strip" id="dayStrip">
+    <button class="day-btn active" onclick="switchDay(0,this)"><div class="day">월</div><div class="date">6/8</div></button>
+    <button class="day-btn" onclick="switchDay(1,this)"><div class="day">화</div><div class="date">6/9</div></button>
+    <button class="day-btn" onclick="switchDay(2,this)"><div class="day">수</div><div class="date">6/10</div></button>
+    <button class="day-btn" onclick="switchDay(3,this)"><div class="day">목</div><div class="date">6/11</div></button>
+    <button class="day-btn" onclick="switchDay(4,this)"><div class="day">금</div><div class="date">6/12</div></button>
+  </div>
+
+  <!-- ── 월요일 ── -->
+  <div id="day-0" class="sub-content active">
+    <div class="notice" style="margin-bottom:10px">⚠️ 진행상황에 따라 변동될 수 있습니다.</div>
+    <div class="card">
+      <div class="card-title"><span class="icon">📅</span> 6월 8일 (월요일) · 등록 &amp; 개강</div>
+      <div class="card-body">
+        <div class="schedule-item"><div class="sch-time">09:30–09:50</div><div class="sch-content"><div class="sch-title">강사, 교사 전체 기도회</div><div class="sch-detail">담당: 한국본부 · 강의실</div></div><span class="sch-badge badge-lecture">기도회</span></div>
+        <div class="schedule-item"><div class="sch-time">09:50–10:30</div><div class="sch-content"><div class="sch-title">임상훈련 최종 점검, 안내자 배치, 임상훈련 준비</div><div class="sch-detail">담당: 기지교회 · 강의실</div></div><span class="sch-badge badge-lecture">준비</span></div>
+        <div class="schedule-item"><div class="sch-time">10:30–11:30</div><div class="sch-content"><div class="sch-title">등록 받기, 개인 증명 사진촬영</div><div class="sch-detail">담당: 기지교회 · 로비 · 비고: 등록시 주소록 확인</div></div><span class="sch-badge badge-lecture">등록</span></div>
+        <div class="schedule-item"><div class="sch-time">11:30–12:10</div><div class="sch-content"><div class="sch-title">점심 식사</div><div class="sch-detail">담당: 식사팀 · 식당</div></div><span class="sch-badge badge-meal">식사</span></div>
+        <div class="schedule-item"><div class="sch-time">12:10–12:30</div><div class="sch-content"><div class="sch-title">환영의 시간</div><div class="sch-detail">유대연 목사 환영사, 찬양(정해성 전도사), 말씀(홍문균 목사) · 강의실</div></div><span class="sch-badge badge-ceremony">환영</span></div>
+        <div class="schedule-item"><div class="sch-time">12:30–01:20</div><div class="sch-content"><div class="sch-title">케네디 목사 전도폭발 사역간증과 사역의 발자취 시청</div><div class="sch-detail">담당: 한국본부 · 강의실</div></div><span class="sch-badge badge-lecture">강의</span></div>
+        <div class="schedule-item"><div class="sch-time">01:20–01:30</div><div class="sch-content"><div class="sch-title">휴식</div><div class="sch-detail">담당: 유대연 목사 · 안내</div></div><span class="sch-badge badge-meal">휴식</span></div>
+        <div class="schedule-item"><div class="sch-time">01:30–02:20</div><div class="sch-content"><div class="sch-title">제1과 평신도 무장하기 1 (지도자 교안 pp.1-9)</div><div class="sch-detail">담당: 홍문균 목사 · 강의실 · 비고: 생수·수건·포인터</div></div><span class="sch-badge badge-lecture">강의</span></div>
+        <div class="schedule-item"><div class="sch-time">02:20–02:40</div><div class="sch-content"><div class="sch-title">휴식 / 간식</div><div class="sch-detail">안내: 유대연 목사 · 간식팀</div></div><span class="sch-badge badge-meal">간식</span></div>
+        <div class="schedule-item"><div class="sch-time">02:40–03:30</div><div class="sch-content"><div class="sch-title">제1과 평신도 무장하기 2 (지도자 교안 pp.10-16)</div><div class="sch-detail">담당: 홍문균 목사 · 강의실</div></div><span class="sch-badge badge-lecture">강의</span></div>
+        <div class="schedule-item"><div class="sch-time">03:30–03:40</div><div class="sch-content"><div class="sch-title">휴식</div><div class="sch-detail">담당: 유대연 목사 · 안내</div></div><span class="sch-badge badge-meal">휴식</span></div>
+        <div class="schedule-item"><div class="sch-time">03:40–04:00</div><div class="sch-content"><div class="sch-title">전체복음 시범 (시범)</div><div class="sch-detail">담당: 시범팀 · 강의실</div></div><span class="sch-badge badge-lecture">시범</span></div>
+        <div class="schedule-item"><div class="sch-time">04:00–04:30</div><div class="sch-content"><div class="sch-title">복음개요 그림 설명</div><div class="sch-detail">담당: 김동수 목사 · 강의실</div></div><span class="sch-badge badge-lecture">강의</span></div>
+        <div class="schedule-item"><div class="sch-time">04:30–04:40</div><div class="sch-content"><div class="sch-title">휴식</div><div class="sch-detail">담당: 유대연 목사 · 안내</div></div><span class="sch-badge badge-meal">휴식</span></div>
+        <div class="schedule-item"><div class="sch-time">04:40–05:30</div><div class="sch-content"><div class="sch-title">제2과 친구만들기 (지도자 교안 pp.17-24)</div><div class="sch-detail">담당: 홍문균 목사 · 강의실</div></div><span class="sch-badge badge-lecture">강의</span></div>
+        <div class="schedule-item"><div class="sch-time">05:30–05:40</div><div class="sch-content"><div class="sch-title">휴식</div><div class="sch-detail">담당: 유대연 목사</div></div><span class="sch-badge badge-meal">휴식</span></div>
+        <div class="schedule-item"><div class="sch-time">05:40–06:30</div><div class="sch-content"><div class="sch-title">제3과 간증나누기 (지도자 교안 pp.25-34)</div><div class="sch-detail">담당: 유대연 목사 · 강의실</div></div><span class="sch-badge badge-lecture">강의</span></div>
+        <div class="schedule-item"><div class="sch-time">06:30–06:40</div><div class="sch-content"><div class="sch-title">간증문 작성 연습</div><div class="sch-detail">강의실 · 비고: 간증문연습용지2</div></div><span class="sch-badge badge-lecture">실습</span></div>
+        <div class="schedule-item"><div class="sch-time">06:40–08:30</div><div class="sch-content"><div class="sch-title">월요 연회 (사회, 찬양, 특송, 훈련자 간증)</div><div class="sch-detail">담당: 유대연 목사 · 연회장</div></div><span class="sch-badge badge-ceremony">연회</span></div>
+        <div class="schedule-item"><div class="sch-time">08:30–</div><div class="sch-content"><div class="sch-title">광고 및 마침기도, 숙소로 이동</div><div class="sch-detail">담당: 유대연 목사 · 연회장 · 담당: 여상직</div></div><span class="sch-badge badge-meal">이동</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 화요일 ── -->
+  <div id="day-1" class="sub-content">
+    <div class="card">
+      <div class="card-title"><span class="icon">📅</span> 6월 9일 (화요일) · 현장전도 1일차</div>
+      <div class="card-body">
+        <div class="schedule-item"><div class="sch-time">07:00–07:35</div><div class="sch-content"><div class="sch-title">아침식사</div><div class="sch-detail">숙소</div></div><span class="sch-badge badge-meal">식사</span></div>
+        <div class="schedule-item"><div class="sch-time">07:35–08:15</div><div class="sch-content"><div class="sch-title">교회로 이동</div><div class="sch-detail"></div></div><span class="sch-badge badge-meal">이동</span></div>
+        <div class="schedule-item"><div class="sch-time">08:20–08:40</div><div class="sch-content"><div class="sch-title">암기개요 A 시험</div><div class="sch-detail">담당: 김동수 목사 · 강의실 · 비고: 암기개요A시험지</div></div><span class="sch-badge badge-lecture">시험</span></div>
+        <div class="schedule-item"><div class="sch-time">08:40–09:10</div><div class="sch-content"><div class="sch-title">경건회 (찬양: 정해성 전도사)</div><div class="sch-detail">담당: 정병철 목사 · 강의실</div></div><span class="sch-badge badge-lecture">경건회</span></div>
+        <div class="schedule-item"><div class="sch-time">09:10–09:20</div><div class="sch-content"><div class="sch-title">합심 기도회</div><div class="sch-detail">담당: 유대연 목사 · 강의실</div></div><span class="sch-badge badge-lecture">기도회</span></div>
+        <div class="schedule-item"><div class="sch-time">09:20–09:30</div><div class="sch-content"><div class="sch-title">휴식</div><div class="sch-detail">담당: 유대연 목사 · 안내</div></div><span class="sch-badge badge-meal">휴식</span></div>
+        <div class="schedule-item"><div class="sch-time">09:30–10:00</div><div class="sch-content"><div class="sch-title">간증문 교정</div><div class="sch-detail">담당: 유대연 목사 · 강의실 · 비고: 간증점검표 3장</div></div><span class="sch-badge badge-lecture">실습</span></div>
+        <div class="schedule-item"><div class="sch-time">10:00–10:50</div><div class="sch-content"><div class="sch-title">제4과 진단질문사용하기 (지도자 교안 pp.35-42) (시범)</div><div class="sch-detail">담당: 유대연 목사 · 강의실 · 비고: 간증문 수거</div></div><span class="sch-badge badge-lecture">강의·시범</span></div>
+        <div class="schedule-item"><div class="sch-time">10:50–11:10</div><div class="sch-content"><div class="sch-title">휴식 / 간식 (안내: 유대연 목사)</div><div class="sch-detail">간식팀 · 비고: 수정된 주소록 게시</div></div><span class="sch-badge badge-meal">간식</span></div>
+        <div class="schedule-item"><div class="sch-time">11:10–12:00</div><div class="sch-content"><div class="sch-title">제5과 은혜, 인간, 하나님 (지도자 교안 pp.43-50) (시범)</div><div class="sch-detail">담당: 최성결 목사 · 강의실 · 비고: 남서울은혜교회</div></div><span class="sch-badge badge-lecture">강의·시범</span></div>
+        <div class="schedule-item"><div class="sch-time">12:00–12:10</div><div class="sch-content"><div class="sch-title">휴식</div><div class="sch-detail">담당: 유대연 목사 · 안내</div></div><span class="sch-badge badge-meal">휴식</span></div>
+        <div class="schedule-item"><div class="sch-time">12:10–01:00</div><div class="sch-content"><div class="sch-title">제6과 예수그리스도, 믿음 (지도자 교안 pp.51-58) (시범)</div><div class="sch-detail">담당: 최성결 목사 · 강의실 · 비고: 남서울은혜교회</div></div><span class="sch-badge badge-lecture">강의·시범</span></div>
+        <div class="schedule-item"><div class="sch-time">01:00–02:00</div><div class="sch-content"><div class="sch-title">점심식사 (안내: 유대연 목사)</div><div class="sch-detail">식사팀 · 식당 · 비고: 지휘/반주자 선정</div></div><span class="sch-badge badge-meal">식사</span></div>
+        <div class="schedule-item"><div class="sch-time">02:00–02:30</div><div class="sch-content"><div class="sch-title">훈련자 입장 / 복음제시 연습시간 (암기개요 B 중심)</div><div class="sch-detail">담당: 훈련자 · 강의실</div></div><span class="sch-badge badge-lecture">연습</span></div>
+        <div class="schedule-item"><div class="sch-time">02:30–02:40</div><div class="sch-content"><div class="sch-title">방문전도 안내 / 기도</div><div class="sch-detail">담당: 홍문균 목사 · 강의실</div></div><span class="sch-badge badge-field">전도준비</span></div>
+        <div class="schedule-item"><div class="sch-time">02:40–03:50</div><div class="sch-content"><div class="sch-title">현장전도</div><div class="sch-detail">조별 · 현장 · 비고: 현장전도 봉투</div></div><span class="sch-badge badge-field">현장전도</span></div>
+        <div class="schedule-item"><div class="sch-time">03:50–04:10</div><div class="sch-content"><div class="sch-title">보고서 작성 / 간식</div><div class="sch-detail">조별 · 강의실</div></div><span class="sch-badge badge-meal">간식</span></div>
+        <div class="schedule-item"><div class="sch-time">04:10–05:10</div><div class="sch-content"><div class="sch-title">공개보고회</div><div class="sch-detail">조별 · 강의실 · 비고: 전체 보고회</div></div><span class="sch-badge badge-lecture">보고회</span></div>
+        <div class="schedule-item"><div class="sch-time">05:10–05:30</div><div class="sch-content"><div class="sch-title">현장전도 분석 및 총평 / 기도</div><div class="sch-detail">담당: 훈련자 보고 · 강의실</div></div><span class="sch-badge badge-lecture">총평</span></div>
+        <div class="schedule-item"><div class="sch-time">05:30–05:40</div><div class="sch-content"><div class="sch-title">휴식</div><div class="sch-detail">담당: 홍문균 목사</div></div><span class="sch-badge badge-meal">휴식</span></div>
+        <div class="schedule-item"><div class="sch-time">05:40–06:10</div><div class="sch-content"><div class="sch-title">복음배틀 (개인전)</div><div class="sch-detail">담당: 김동수 목사 · 강의실 · 비고: 1~3등 선물</div></div><span class="sch-badge badge-lecture">복음배틀</span></div>
+        <div class="schedule-item"><div class="sch-time">06:10–07:00</div><div class="sch-content"><div class="sch-title">저녁식사 (안내: 유대연 목사)</div><div class="sch-detail">식사팀 · 식당</div></div><span class="sch-badge badge-meal">식사</span></div>
+        <div class="schedule-item"><div class="sch-time">07:00–08:00</div><div class="sch-content"><div class="sch-title">제7과 결신초청하기 (지도자교안 pp.61-70) (시범)</div><div class="sch-detail">담당: 유대연 목사 · 강의실</div></div><span class="sch-badge badge-lecture">강의·시범</span></div>
+        <div class="schedule-item"><div class="sch-time">08:00–08:10</div><div class="sch-content"><div class="sch-title">광고, 마무리기도 및 숙소로 이동</div><div class="sch-detail">담당: 유대연 목사 · 강의실 · 담당: 전태룡</div></div><span class="sch-badge badge-meal">이동</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 수요일 ── -->
+  <div id="day-2" class="sub-content">
+    <div class="card">
+      <div class="card-title"><span class="icon">📅</span> 6월 10일 (수요일) · 현장전도 2일차</div>
+      <div class="card-body">
+        <div class="schedule-item"><div class="sch-time">07:00–07:35</div><div class="sch-content"><div class="sch-title">아침식사</div><div class="sch-detail">숙소</div></div><span class="sch-badge badge-meal">식사</span></div>
+        <div class="schedule-item"><div class="sch-time">07:35–08:15</div><div class="sch-content"><div class="sch-title">교회로 이동</div><div class="sch-detail"></div></div><span class="sch-badge badge-meal">이동</span></div>
+        <div class="schedule-item"><div class="sch-time">08:20–09:00</div><div class="sch-content"><div class="sch-title">암기개요 B 시험</div><div class="sch-detail">담당: 김동수 목사 · 강의실 · 비고: 암기개요B시험지</div></div><span class="sch-badge badge-lecture">시험</span></div>
+        <div class="schedule-item"><div class="sch-time">09:00–09:10</div><div class="sch-content"><div class="sch-title">합심 기도회</div><div class="sch-detail">담당: 유대연 목사 · 강의실</div></div><span class="sch-badge badge-lecture">기도회</span></div>
+        <div class="schedule-item"><div class="sch-time">09:10–09:20</div><div class="sch-content"><div class="sch-title">휴식</div><div class="sch-detail">담당: 유대연 목사 · 안내</div></div><span class="sch-badge badge-meal">휴식</span></div>
+        <div class="schedule-item"><div class="sch-time">09:20–10:20</div><div class="sch-content"><div class="sch-title">제8과 새신자 제자 삼기와 양육 (지도자교안 pp.71-82) (시범)</div><div class="sch-detail">담당: 유대연 목사 · 강의실</div></div><span class="sch-badge badge-lecture">강의·시범</span></div>
+        <div class="schedule-item"><div class="sch-time">10:20–10:30</div><div class="sch-content"><div class="sch-title">휴식 및 간식</div><div class="sch-detail">담당: 유대연 목사</div></div><span class="sch-badge badge-meal">간식</span></div>
+        <div class="schedule-item"><div class="sch-time">10:30–11:20</div><div class="sch-content"><div class="sch-title">제9과 모집하기와 화대하기 (지도자 교안 pp.83-90)</div><div class="sch-detail">담당: 김동수 목사 · 강의실</div></div><span class="sch-badge badge-lecture">강의</span></div>
+        <div class="schedule-item"><div class="sch-time">11:20–11:30</div><div class="sch-content"><div class="sch-title">수요예배 장소로 이동</div><div class="sch-detail">담당: 유대연 목사 · 예배실 · 안내</div></div><span class="sch-badge badge-meal">이동</span></div>
+        <div class="schedule-item"><div class="sch-time">11:30–12:30</div><div class="sch-content"><div class="sch-title">수요예배</div><div class="sch-detail">전체 · 예배당</div></div><span class="sch-badge badge-ceremony">예배</span></div>
+        <div class="schedule-item"><div class="sch-time">12:30–12:50</div><div class="sch-content"><div class="sch-title">단체사진 촬영 및 훈련장소로 이동</div><div class="sch-detail">본부 · 예배당 · 비고: 사진기/삼각대</div></div><span class="sch-badge badge-lecture">촬영</span></div>
+        <div class="schedule-item"><div class="sch-time">12:50–01:50</div><div class="sch-content"><div class="sch-title">점심식사</div><div class="sch-detail">안내: 유대연 목사 · 식당</div></div><span class="sch-badge badge-meal">식사</span></div>
+        <div class="schedule-item"><div class="sch-time">01:50–02:20</div><div class="sch-content"><div class="sch-title">훈련자 입장 / 복음제시 연습시간 (복음 중심)</div><div class="sch-detail">담당: 훈련자 · 강의실</div></div><span class="sch-badge badge-lecture">연습</span></div>
+        <div class="schedule-item"><div class="sch-time">02:20–02:30</div><div class="sch-content"><div class="sch-title">방문전도 안내 / 기도</div><div class="sch-detail">담당: 홍문균 목사 · 강의실</div></div><span class="sch-badge badge-field">전도준비</span></div>
+        <div class="schedule-item"><div class="sch-time">02:30–03:40</div><div class="sch-content"><div class="sch-title">현장전도</div><div class="sch-detail">조별 · 현장 · 비고: 현장전도 봉투</div></div><span class="sch-badge badge-field">현장전도</span></div>
+        <div class="schedule-item"><div class="sch-time">03:40–04:00</div><div class="sch-content"><div class="sch-title">보고서 작성 / 간식</div><div class="sch-detail">조별 · 강의실</div></div><span class="sch-badge badge-meal">간식</span></div>
+        <div class="schedule-item"><div class="sch-time">04:00–05:00</div><div class="sch-content"><div class="sch-title">공개보고회</div><div class="sch-detail">조별 · 강의실 · 비고: 전체 보고회</div></div><span class="sch-badge badge-lecture">보고회</span></div>
+        <div class="schedule-item"><div class="sch-time">05:00–05:20</div><div class="sch-content"><div class="sch-title">현장전도 분석 및 총평 / 기도</div><div class="sch-detail">담당: 홍문균 목사 · 강의실</div></div><span class="sch-badge badge-lecture">총평</span></div>
+        <div class="schedule-item"><div class="sch-time">05:20–05:30</div><div class="sch-content"><div class="sch-title">휴식</div><div class="sch-detail">담당: 유대연 목사</div></div><span class="sch-badge badge-meal">휴식</span></div>
+        <div class="schedule-item"><div class="sch-time">05:30–06:00</div><div class="sch-content"><div class="sch-title">복음 배틀 (단체전) — 훈련생 4명씩 –11조, 11명 교사</div><div class="sch-detail">담당: 김동수 목사 · 강의실 · 비고: 복음배틀판 11개</div></div><span class="sch-badge badge-lecture">복음배틀</span></div>
+        <div class="schedule-item"><div class="sch-time">06:00–06:10</div><div class="sch-content"><div class="sch-title">광고, 마무리기도</div><div class="sch-detail">담당: 유대연 목사 · 강의실</div></div><span class="sch-badge badge-lecture">마무리</span></div>
+        <div class="schedule-item"><div class="sch-time">06:10–07:00</div><div class="sch-content"><div class="sch-title">저녁식사</div><div class="sch-detail">식사팀 · 식당</div></div><span class="sch-badge badge-meal">식사</span></div>
+        <div class="schedule-item"><div class="sch-time">07:00–</div><div class="sch-content"><div class="sch-title">숙소로 이동</div><div class="sch-detail">담당: 이상진</div></div><span class="sch-badge badge-meal">이동</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 목요일 ── -->
+  <div id="day-3" class="sub-content">
+    <div class="card">
+      <div class="card-title"><span class="icon">📅</span> 6월 11일 (목요일) · 현장전도 3일차</div>
+      <div class="card-body">
+        <div class="schedule-item"><div class="sch-time">07:00–07:35</div><div class="sch-content"><div class="sch-title">아침식사</div><div class="sch-detail">숙소</div></div><span class="sch-badge badge-meal">식사</span></div>
+        <div class="schedule-item"><div class="sch-time">07:35–08:15</div><div class="sch-content"><div class="sch-title">교회로 이동</div><div class="sch-detail"></div></div><span class="sch-badge badge-meal">이동</span></div>
+        <div class="schedule-item"><div class="sch-time">08:20–08:50</div><div class="sch-content"><div class="sch-title">경건회 (찬양: 정해성 전도사)</div><div class="sch-detail">담당: 박기선 목사 · 강의실</div></div><span class="sch-badge badge-lecture">경건회</span></div>
+        <div class="schedule-item"><div class="sch-time">08:50–09:00</div><div class="sch-content"><div class="sch-title">합심 기도회</div><div class="sch-detail">담당: 유대연 목사 · 강의실</div></div><span class="sch-badge badge-lecture">기도회</span></div>
+        <div class="schedule-item"><div class="sch-time">09:00–09:10</div><div class="sch-content"><div class="sch-title">휴식</div><div class="sch-detail">담당: 유대연 목사 · 안내</div></div><span class="sch-badge badge-meal">휴식</span></div>
+        <div class="schedule-item"><div class="sch-time">09:10–10:10</div><div class="sch-content"><div class="sch-title">제10과 전도의 생활화와 상황에 맞는 복음제시 (지도자 교안 pp.91-96) (시범)</div><div class="sch-detail">담당: 김동수 목사 · 강의실</div></div><span class="sch-badge badge-lecture">강의·시범</span></div>
+        <div class="schedule-item"><div class="sch-time">10:10–10:30</div><div class="sch-content"><div class="sch-title">휴식 / 간식</div><div class="sch-detail">안내: 유대연 목사 · 간식팀</div></div><span class="sch-badge badge-meal">간식</span></div>
+        <div class="schedule-item"><div class="sch-time">10:30–12:00</div><div class="sch-content"><div class="sch-title">제11과 반대의견 다루기 (지도자 교안 pp.97-104)</div><div class="sch-detail">담당: 홍문균 목사 · 강의실 · 비고: 반대의견 유인물</div></div><span class="sch-badge badge-lecture">강의</span></div>
+        <div class="schedule-item"><div class="sch-time">12:00–01:00</div><div class="sch-content"><div class="sch-title">점심식사</div><div class="sch-detail">안내: 유대연 목사 · 식당</div></div><span class="sch-badge badge-meal">식사</span></div>
+        <div class="schedule-item"><div class="sch-time">01:00–01:30</div><div class="sch-content"><div class="sch-title">훈련자 입장 / 복음제시 연습시간 (결신 중심)</div><div class="sch-detail">담당: 훈련자 · 강의실</div></div><span class="sch-badge badge-lecture">연습</span></div>
+        <div class="schedule-item"><div class="sch-time">01:30–01:40</div><div class="sch-content"><div class="sch-title">노방전도 안내 / 기도</div><div class="sch-detail">담당: 홍문균 목사 · 강의실</div></div><span class="sch-badge badge-field">전도준비</span></div>
+        <div class="schedule-item"><div class="sch-time">01:40–04:00</div><div class="sch-content"><div class="sch-title">노방전도</div><div class="sch-detail">조별 · 현장 · 비고: 현장전도 봉투</div></div><span class="sch-badge badge-field">현장전도</span></div>
+        <div class="schedule-item"><div class="sch-time">04:00–04:20</div><div class="sch-content"><div class="sch-title">보고서 작성 / 간식</div><div class="sch-detail">조별 · 강의실</div></div><span class="sch-badge badge-meal">간식</span></div>
+        <div class="schedule-item"><div class="sch-time">04:20–05:20</div><div class="sch-content"><div class="sch-title">공개보고회</div><div class="sch-detail">조별 · 강의실 · 비고: 전체 보고회</div></div><span class="sch-badge badge-lecture">보고회</span></div>
+        <div class="schedule-item"><div class="sch-time">05:20–05:50</div><div class="sch-content"><div class="sch-title">현장전도 분석 및 총평 / 기도</div><div class="sch-detail">담당: 홍문균 목사 · 강의실</div></div><span class="sch-badge badge-lecture">총평</span></div>
+        <div class="schedule-item"><div class="sch-time">05:50–06:50</div><div class="sch-content"><div class="sch-title">저녁식사</div><div class="sch-detail">안내: 유대연 목사 · 식당</div></div><span class="sch-badge badge-meal">식사</span></div>
+        <div class="schedule-item"><div class="sch-time">06:50–07:30</div><div class="sch-content"><div class="sch-title">전도폭발 사역 소개, 후원안내</div><div class="sch-detail">담당: 김동수 목사 · 강의실 · 비고: 후원약정서</div></div><span class="sch-badge badge-lecture">안내</span></div>
+        <div class="schedule-item"><div class="sch-time">07:30–</div><div class="sch-content"><div class="sch-title">광고, 마무리기도 및 숙소로 이동</div><div class="sch-detail">담당: 유대연 목사 · 강의실 · 비고: 충원간증용지배부 · 담당: 윤성원</div></div><span class="sch-badge badge-meal">이동</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 금요일 ── -->
+  <div id="day-4" class="sub-content">
+    <div class="card">
+      <div class="card-title"><span class="icon">📅</span> 6월 12일 (금요일) · 수료일</div>
+      <div class="card-body">
+        <div class="schedule-item"><div class="sch-time">07:00–07:35</div><div class="sch-content"><div class="sch-title">아침식사</div><div class="sch-detail">숙소</div></div><span class="sch-badge badge-meal">식사</span></div>
+        <div class="schedule-item"><div class="sch-time">07:35–08:15</div><div class="sch-content"><div class="sch-title">교회로 이동</div><div class="sch-detail"></div></div><span class="sch-badge badge-meal">이동</span></div>
+        <div class="schedule-item"><div class="sch-time">08:20–08:50</div><div class="sch-content"><div class="sch-title">경건회 (찬양: 정해성 전도사)</div><div class="sch-detail">담당: 홍문균 목사 · 강의실 · 비고: 충원간증문 수거</div></div><span class="sch-badge badge-lecture">경건회</span></div>
+        <div class="schedule-item"><div class="sch-time">08:50–09:00</div><div class="sch-content"><div class="sch-title">합심 기도회</div><div class="sch-detail">담당: 유대연 목사 · 강의실</div></div><span class="sch-badge badge-lecture">기도회</span></div>
+        <div class="schedule-item"><div class="sch-time">09:00–09:10</div><div class="sch-content"><div class="sch-title">휴식</div><div class="sch-detail">담당: 유대연 목사 · 비고: 훈련자입장 준비</div></div><span class="sch-badge badge-meal">휴식</span></div>
+        <div class="schedule-item"><div class="sch-time">09:10–10:10</div><div class="sch-content"><div class="sch-title">구두복음제시 평가 (훈련자 22명 대기)</div><div class="sch-detail">담당: 김동수 목사 · 강의실 · 비고: 구두복음제시시험지</div></div><span class="sch-badge badge-lecture">평가</span></div>
+        <div class="schedule-item"><div class="sch-time">10:10–10:30</div><div class="sch-content"><div class="sch-title">휴식 / 간식 (안내: 유대연 목사)</div><div class="sch-detail">간식팀</div></div><span class="sch-badge badge-meal">간식</span></div>
+        <div class="schedule-item"><div class="sch-time">10:30–11:20</div><div class="sch-content"><div class="sch-title">단계별 강의안내, 행정 USB 활용 안내</div><div class="sch-detail">담당: 김동수 목사 · 강의실</div></div><span class="sch-badge badge-lecture">강의</span></div>
+        <div class="schedule-item"><div class="sch-time">11:20–11:30</div><div class="sch-content"><div class="sch-title">휴식</div><div class="sch-detail">담당: 유대연 목사 · 안내</div></div><span class="sch-badge badge-meal">휴식</span></div>
+        <div class="schedule-item"><div class="sch-time">11:30–12:40</div><div class="sch-content"><div class="sch-title">제12과 지역교회 전도폭발 훈련시작 (지도자교안 pp.106-197)</div><div class="sch-detail">담당: 홍문균 목사 · 강의실</div></div><span class="sch-badge badge-lecture">강의</span></div>
+        <div class="schedule-item"><div class="sch-time">12:40–01:30</div><div class="sch-content"><div class="sch-title">점심식사 (안내: 유대연 목사)</div><div class="sch-detail">식사팀 · 식당 · 비고: 수료식 준비</div></div><span class="sch-badge badge-meal">식사</span></div>
+        <div class="schedule-item"><div class="sch-time">01:30–03:00</div><div class="sch-content"><div class="sch-title">수료식</div><div class="sch-detail">담당: 유대연 목사 · 강의실 · 배지 수여(훈련자 22명), 간증 발표</div></div><span class="sch-badge badge-ceremony">수료식</span></div>
+        <div class="schedule-item"><div class="sch-time">03:00–</div><div class="sch-content"><div class="sch-title">사역의 현장으로</div><div class="sch-detail"></div></div><span class="sch-badge badge-ceremony">파송</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════════════ TEAMS ══════════════════ -->
+<div id="tab-teams" class="tab-content">
+<div class="content">
+
+  <div class="day-strip">
+    <button class="day-btn active" onclick="switchTeam(0,this)"><div class="day" style="font-size:10px">총괄팀</div></button>
+    <button class="day-btn" onclick="switchTeam(1,this)"><div class="day" style="font-size:10px">행사운영</div></button>
+    <button class="day-btn" onclick="switchTeam(2,this)"><div class="day" style="font-size:10px">안내팀</div></button>
+    <button class="day-btn" onclick="switchTeam(3,this)"><div class="day" style="font-size:10px">시설팀</div></button>
+    <button class="day-btn" onclick="switchTeam(4,this)"><div class="day" style="font-size:10px">훈련자팀</div></button>
+    <button class="day-btn" onclick="switchTeam(5,this)"><div class="day" style="font-size:10px">시범자팀</div></button>
+    <button class="day-btn" onclick="switchTeam(6,this)"><div class="day" style="font-size:10px">식사팀</div></button>
+    <button class="day-btn" onclick="switchTeam(7,this)"><div class="day" style="font-size:10px">숙소·차량</div></button>
+    <button class="day-btn" onclick="switchTeam(8,this)"><div class="day" style="font-size:10px">찬양팀</div></button>
+    <button class="day-btn" onclick="switchTeam(9,this)"><div class="day" style="font-size:10px">중보기도</div></button>
+    <button class="day-btn" onclick="switchTeam(10,this)"><div class="day" style="font-size:10px">채점팀</div></button>
+  </div>
+
+  <!-- 총괄팀 -->
+  <div id="team-0" class="sub-content active">
+    <div class="team-header">
+      <h2>총괄팀</h2>
+      <div class="team-meta">
+        담당: 유대연 목사, 김찬영 전도사, 정해성 전도사, 최정희 총무<br>
+        역할: 전체 훈련의 기획 및 준비과정을 총괄 진행
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">📋</span> 주요 업무</div>
+      <div class="card-body">
+        <ul class="role-list">
+          <li>전체 일정표 확인 및 팀별 배포</li>
+          <li>팀별 역할 분장 최종 확정</li>
+          <li>강의 분담표 확정</li>
+          <li>예산 및 지출 계획 수립</li>
+          <li>최종 참석자 명단 확정 (메일/영문명 확인)</li>
+          <li>비상 연락망 배포</li>
+          <li>훈련 기간 중 돌발 상황 대응 총괄</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">✅</span> 진행 본부 준비 점검표</div>
+      <div class="card-body" style="padding:6px 8px;overflow-x:auto">
+        <table class="cue-table">
+          <tr><th>내용</th><th>담당</th><th>진행사항</th><th>완료일</th><th>완료</th></tr>
+          <tr><td>숙소 예약</td><td>김찬영</td><td>더트리니티 어반스위트</td><td>3/15(수)</td><td>✅</td></tr>
+          <tr><td>버스·기사 확인</td><td>김찬영</td><td>월저녁~금아침, 왕복55만원 (길벗스페이스)</td><td>3/18(수)</td><td>✅</td></tr>
+          <tr><td>강의실 장소 예약</td><td>정해성</td><td>712(강의),711(간식),710(시범),701(간식준비),702(스탭),713(강사)</td><td>3/31(화)</td><td></td></tr>
+          <tr><td>현장전도·중보기도 장소</td><td>정해성</td><td>현장전도: 2~4층 셀룸 / 중보기도: 그룹기도실</td><td>3/31(화)</td><td></td></tr>
+          <tr><td>임무 분담표 확정</td><td>김찬영</td><td>임원모임(4/18) 논의</td><td>4/30(목)</td><td></td></tr>
+          <tr><td>훈련자 선정</td><td>김찬영</td><td>각 반 임원과 소통</td><td>5/1(금)</td><td></td></tr>
+          <tr><td>시범조 선정</td><td>김찬영</td><td>각 반 임원과 소통</td><td>5/1(금)</td><td></td></tr>
+          <tr><td>본부 사전점검</td><td>김찬영</td><td>5/6(수) 예정, 훈련자·시범조 참석 안내</td><td>5/1(금)</td><td></td></tr>
+          <tr><td>디자인/플래카드 제작</td><td>정해성</td><td>디자인팀 의뢰, 현수막, 배너</td><td>5/7(목)</td><td></td></tr>
+          <tr><td>식당 예약</td><td>김찬영</td><td>만찬 업체, 교회 VIP홀</td><td>5/8(금)</td><td></td></tr>
+          <tr><td>1차 서신 발송</td><td>김찬영</td><td>기도제목 요청, 간단시간표, 암기개요A, MP3</td><td>5/8(금)</td><td></td></tr>
+          <tr><td>경건회 강사 섭외</td><td>김찬영</td><td>화(정병철), 목(OOO), 금(홍문균)</td><td>5/12(화)</td><td></td></tr>
+          <tr><td>찬양인도자·반주자 섭외</td><td>정해성</td><td>예배부 섭외(연회·수료식)</td><td>5/12(화)</td><td></td></tr>
+          <tr><td>연회 특송자 섭외</td><td>정해성</td><td>월: OOO, 금: OOO</td><td>5/12(화)</td><td></td></tr>
+          <tr><td>담임목사님 일정 확인</td><td>유대연</td><td>월요연회·수요경건회·금요수료식</td><td>5/12(화)</td><td></td></tr>
+          <tr><td>시설 최종 확인</td><td>정해성</td><td>시설/방송 사역 신청</td><td>5/12(화)</td><td></td></tr>
+          <tr><td>기도후원자 선정</td><td>김찬영</td><td>중보기도팀, 각 반 릴레이 기도</td><td>5/13(수)</td><td></td></tr>
+          <tr><td>월요 연회 초청장</td><td>정해성</td><td>제작:정해성 / 발송:유대연</td><td>5/26(화)</td><td></td></tr>
+          <tr><td>월요 연회 간증자 선정</td><td>김찬영</td><td>반별 2명씩 추천</td><td>5/26(화)</td><td></td></tr>
+          <tr><td>교회 주차장 확인</td><td>정해성</td><td>훈련생 당일 7층, 아울렛 주차 (~40대)</td><td>5/26(화)</td><td></td></tr>
+          <tr><td>2차 서신 발송</td><td>김찬영</td><td>세부시간표, 암기개요B, 5가지 예화, MP3, 약도</td><td>5/29(금)</td><td></td></tr>
+          <tr><td>사진 사역단 협조</td><td>정해성</td><td>멀티미디어팀(윤정준 전도사) 소통</td><td>5/29(금)</td><td></td></tr>
+          <tr><td>훈련자·시범자 점검</td><td>김찬영</td><td>최정희 총무와 소통</td><td>5/31(일)</td><td></td></tr>
+          <tr><td>월요 연회 참석자 확인</td><td>김찬영</td><td>기지교회별 담당자 연락처 및 명단</td><td>6/2(화)</td><td></td></tr>
+          <tr><td>기념품 준비</td><td>김찬영</td><td>훈련생 / 내부 봉사자</td><td>6/2(화)</td><td></td></tr>
+          <tr><td>명패·명찰·연회순서지·숙소배정표</td><td>정해성</td><td>연회순서지:정해성, 숙소배정표:김찬영, 그외:최정희</td><td>6/4(목)</td><td></td></tr>
+          <tr><td>본부 훈련 교재 확인</td><td>정해성</td><td>교재 주문: 김수진 회계</td><td>6/2(화)</td><td></td></tr>
+          <tr><td>자료 준비 및 정리</td><td>김찬영</td><td>최정희 총무</td><td>6/7(일)</td><td></td></tr>
+          <tr><td>당일 최종 점검</td><td>김찬영</td><td>—</td><td>6/7(일)</td><td></td></tr>
+          <tr><td>교재·가방 세팅</td><td>정해성</td><td>김수진 회계</td><td>6/8(월)</td><td></td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 행사운영팀 -->
+  <div id="team-1" class="sub-content">
+    <div class="team-header">
+      <h2>행사운영팀</h2>
+      <div class="team-meta">담당: 김찬영 전도사, 최정희 총무 / 팀원: 김진희, 김영선</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">🎫</span> 접수 및 안내</div>
+      <div class="card-body">
+        <ul class="role-list">
+          <li>준비물: 명찰 / 교재패키지 / 물 / 등록명부 / 시간표 / 숙소 배치표</li>
+          <li>비타민, 드링크제 및 구급함 구매 (김수진)</li>
+          <li>등록명단 원본 확인 (메일, 영문명)</li>
+          <li>사진촬영 안내 / 자리 안내</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">🏫</span> 강의실 관리</div>
+      <div class="card-body">
+        <ul class="role-list">
+          <li>매일 훈련생 자리 배치 (조 구성, 매일 변동)</li>
+          <li>노트북 1대 설치</li>
+          <li>인쇄: 교육훈련부 사무실 이용</li>
+          <li>사진인쇄: 미취학지구 협조 요청</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">📌</span> 기타 운영</div>
+      <div class="card-body">
+        <ul class="role-list">
+          <li>현수막, 홍보물 제작 및 설치</li>
+          <li>조패(양면), 명패(양면), 명찰, 시간표 작성</li>
+          <li>강의실·숙소·연회장·화장실 데코</li>
+          <li>현장전도 조 편성 (화/수/목)</li>
+          <li>현장전도 봉투 만들기, 대상자 확보, 선물 준비</li>
+          <li>훈련생 선물 준비 (복음책 외 2개)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 안내팀 -->
+  <div id="team-2" class="sub-content">
+    <div class="team-header">
+      <h2>안내팀</h2>
+      <div class="team-meta">담당: 박현민, 김현진, 변희남 / 팀원: 14명</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">🗺</span> 안내 위치</div>
+      <div class="card-body">
+        <table class="loc-table">
+          <tr><th>구분</th><th>위치</th></tr>
+          <tr><td>외부①</td><td>지하철 미금역 5번 출구</td></tr>
+          <tr><td>외부②</td><td>엠코헤리츠 통로</td></tr>
+          <tr><td>외부③</td><td>2001아울렛 입구</td></tr>
+          <tr><td>외부④</td><td>교회 입구</td></tr>
+          <tr><td>내부①</td><td>뜨랑슈아 앞</td></tr>
+          <tr><td>내부②</td><td>지하1층 엘베 앞</td></tr>
+          <tr><td>내부③</td><td>1층 주차장</td></tr>
+          <tr><td>내부④</td><td>7층 엘베 앞</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">📋</span> 첫날 등록 운영</div>
+      <div class="card-body">
+        <ul class="role-list">
+          <li>등록명단 원본 확인 → 명찰 배부 (1:1 안내)</li>
+          <li>자리 안내: 짐 보관 후 강의실 안내 (좌석배치도 확인)</li>
+          <li>사진촬영 안내</li>
+          <li>안내 패널: "7층에 주차해주세요~", "환영합니다~"</li>
+          <li>등록부스 인원: 4~5명</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">🌸</span> 비품 확인팀 (담당: 신현애)</div>
+      <div class="card-body">
+        <ul class="role-list">
+          <li>매일 같은 시간 강대상·교실·화장실 비품 파악 후 보충</li>
+          <li>꽃 위치: 711호 연회테이블, 간식테이블, 712호 앞, 화장실, 연회 센터피스</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 시설팀 -->
+  <div id="team-3" class="sub-content">
+    <div class="team-header">
+      <h2>시설팀</h2>
+      <div class="team-meta">장소 예약 및 강의실 설비 담당</div>
+    </div>
+    <div class="notice">⚠️ 6/10(수) 오전 9시~12시 MD 802, 803 예비 예약 완료<br>701, 711, 712 룸 조정 필수</div>
+    <div class="card">
+      <div class="card-title"><span class="icon">🔧</span> 설치 사항</div>
+      <div class="card-body">
+        <ul class="role-list">
+          <li>현수막: 주차장 1개, 7층 3개(X배너), 지하식당 1개</li>
+          <li>환영 현수막: 711호 / 전도폭발 개요도: 712호, VIP홀</li>
+          <li>식수대: 712호 입구 1개(상시), 711호 뒤 1개(상시)</li>
+          <li>간식 테이블: 711호 10개</li>
+          <li>712호 믹서 주변 콘센트 설치 (노트북용)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 훈련자팀 -->
+  <div id="team-4" class="sub-content">
+    <div class="team-header">
+      <h2>훈련자팀</h2>
+      <div class="team-meta">
+        담당: 유연희 팀장<br>
+        팀원: 여지연, 박현민, 김영선, 조호점, 이지혜<br>
+        현장전도 참석: 6/9(화)~6/11(목)
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">👤</span> 주요 업무</div>
+      <div class="card-body">
+        <ul class="role-list">
+          <li>훈련자 모집 및 입실 준비사항 체크</li>
+          <li>현장전도 훈련조 편성 및 운영</li>
+          <li>전도현장 물품 체크 및 배부 (김영선)</li>
+          <li>대상자 관리 (이지혜)</li>
+          <li>구두복음제시 평가 점검자 22명 배치</li>
+          <li>금요 수료식 배지 수여 훈련자 22명 확정</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 시범자팀 -->
+  <div id="team-5" class="sub-content">
+    <div class="team-header">
+      <h2>시범자팀</h2>
+      <div class="team-meta">담당: 여지연<br>역할: 매 강의 시 시범자 발굴·연습·시범</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">🎭</span> 시범팀 운영</div>
+      <div class="card-body">
+        <ul class="role-list">
+          <li>2개월 전 시범자·팀원 선정 (3단계 이상 기본)</li>
+          <li>본부 리허설 대비 팀별 충분한 연습</li>
+          <li>질문지 전도팀: 시나리오·복장·준비물 사전 준비</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">⏰</span> 훈련 당일 집합 시간</div>
+      <div class="card-body">
+        <table class="info-table">
+          <tr><th>시범자</th><td>해당 시간 <strong>1시간 전</strong>까지 710호 도착</td></tr>
+          <tr><th>대상자·훈련생</th><td>해당 시간 <strong>30분 전</strong>까지 710호 도착</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="notice">시범 종료 후: 전도자 → 대상자 → 훈련생 순서로 자기소개</div>
+  </div>
+
+  <!-- 식사팀 -->
+  <div id="team-6" class="sub-content">
+    <div class="team-header">
+      <h2>식사·간식팀</h2>
+      <div class="team-meta">담당: 김수진 / 팀원: 박재영, 신현애 · 자세한 메뉴는 🍽 식단 탭 참고</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">🍽</span> 식사 장소</div>
+      <div class="card-body">
+        <table class="info-table">
+          <tr><th>중식·석식</th><td>블레싱 VIP룸 (지하2층)</td></tr>
+          <tr><th>월요 연회</th><td>711호 · 갓피플뷔페 28,000원</td></tr>
+          <tr><th>간식</th><td>711호 (강의 중간 휴식 / 현장전도 귀환 후)</td></tr>
+          <tr><th>조식</th><td>호텔 조식 이용</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">✅</span> 식사팀 준비 점검표</div>
+      <div class="card-body" style="padding:6px 8px;overflow-x:auto">
+        <table class="cue-table">
+          <tr><th>내용</th><th>담당</th><th>진행사항</th></tr>
+          <tr><td>식당 예약·식단 확인</td><td>김수진</td><td>블레싱 식당 예약</td></tr>
+          <tr><td>월요연회 업체 예약</td><td>김수진</td><td>월-출장 뷔페 예약</td></tr>
+          <tr><td>간식 식단표 작성</td><td>정해성</td><td>준비물 확인 및 구입</td></tr>
+          <tr><td>원탁 확인</td><td>진행팀</td><td>711호</td></tr>
+          <tr><td>테이블보 확인(2세트)</td><td>정해성</td><td>보유 현황 확인</td></tr>
+          <tr><td>센터피스 확인</td><td>김수진</td><td>—</td></tr>
+          <tr><td>월요연회 명패 제작</td><td>최정희</td><td>참석 기지교회 명패</td></tr>
+          <tr><td>월요연회 순서지 제작</td><td>정해성</td><td>—</td></tr>
+          <tr><td>월요연회 방명록 비치</td><td>최정희</td><td>연회 장소(711호) 입구</td></tr>
+          <tr><td>월요연회 참석 인원 확인</td><td>신현애, 여지연</td><td>훈련생·본부 스태프·게스트·특별손님·교회 가족</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 숙소·차량 -->
+  <div id="team-7" class="sub-content">
+    <div class="team-header">
+      <h2>숙소·차량팀</h2>
+      <div class="team-meta">담당: 정해성 전도사 / 숙소: 더트리니티 어반스위트</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">🚐</span> 요일별 차량 담당</div>
+      <div class="card-body">
+        <div class="vehicle-cards">
+          <div class="vehicle-card" style="--c:#2563eb"><div class="v-day">월<small>6/8</small></div><div class="v-info"><div class="v-name">여상직</div><div class="v-group">분주반</div></div><span class="v-badge">숙소 이동</span></div>
+          <div class="vehicle-card" style="--c:#0891b2"><div class="v-day">화<small>6/9</small></div><div class="v-info"><div class="v-name">전태룡</div><div class="v-group">수주반</div></div><span class="v-badge">숙소 이동</span></div>
+          <div class="vehicle-card" style="--c:#2563eb"><div class="v-day">수<small>6/10</small></div><div class="v-info"><div class="v-name">이상진</div><div class="v-group">분주반</div></div><span class="v-badge">숙소 이동</span></div>
+          <div class="vehicle-card" style="--c:#0891b2"><div class="v-day">목<small>6/11</small></div><div class="v-info"><div class="v-name">윤성원</div><div class="v-group">수주반</div></div><span class="v-badge">숙소 이동</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="notice">첫날 숙소 출발 시 간식 1회 배부</div>
+  </div>
+
+  <!-- 찬양팀 -->
+  <div id="team-8" class="sub-content">
+    <div class="team-header">
+      <h2>찬양팀</h2>
+      <div class="team-meta">담당: 정해성 전도사</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">🎵</span> 운영 지침</div>
+      <div class="card-body">
+        <ul class="role-list">
+          <li>찬양인도자, 반주자, 싱어 섭외</li>
+          <li>찬양 곡 선정 및 악보 준비 (반주자·인도자용)</li>
+          <li>찬양 PPT(16:9) 제작 → <strong>6/2(화)까지 본부 공유</strong></li>
+          <li>곡 선정 주제: 십자가, 보혈, 예수 그리스도, 전도 사명</li>
+          <li>찬양인도자는 찬양만 인도 후 하단 (기도인도 ✗)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 중보기도팀 -->
+  <div id="team-9" class="sub-content">
+    <div class="team-header">
+      <h2>중보기도팀</h2>
+      <div class="team-meta">담당: 배미선, OB 송일령 / 팀원: 정병단</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">🙏</span> 훈련생 중보기도</div>
+      <div class="card-body">
+        <ul class="role-list">
+          <li>한 달 전 훈련생 명단·연락처 수령</li>
+          <li>이메일로 개인·가정·교회 기도제목 수집</li>
+          <li>기도후원자: 훈련생 2명당 1명</li>
+          <li>릴레이 기도표 작성·배부 (한 달 전 시작)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">⏱</span> 훈련 기간 중</div>
+      <div class="card-body">
+        <ul class="role-list">
+          <li>오전 2시간 + 오후 2시간 중보기도실 기도</li>
+          <li>매일 아침 중보기도카드 배부</li>
+          <li>기도 후 중보기도카드 제출 → 팀이 계속 기도</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 채점팀 -->
+  <div id="team-10" class="sub-content">
+    <div class="team-header">
+      <h2>채점·방명록팀</h2>
+      <div class="team-meta">담당: 최정희 / 팀원: 이지혜, 윤승원, 이미경, 임애영, 손은진</div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">📝</span> 암기개요 채점 (710호)</div>
+      <div class="card-body">
+        <ul class="role-list">
+          <li>파랑펜 준비, 교사 채점</li>
+          <li>긍정적 격려 언어만 사용</li>
+          <li>만점자 명단 → 총무 전달</li>
+          <li>과제물 제출표 스티커 부착</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">🎤</span> 간증자 선정</div>
+      <div class="card-body">
+        <ul class="role-list">
+          <li>담임 사역자 우선, 2~3명 추천</li>
+          <li>비전과 확신이 분명한 사역자, 5명 이하</li>
+          <li>간증문 포함: 변화, 감동, 현장전도 경험 2가지, 비전</li>
+          <li>통과된 간증문: OK 표기 후 복사본 보관 → 6/12 본부 제출</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">📖</span> 방명록 관리</div>
+      <div class="card-body">
+        <table class="info-table">
+          <tr><th>월요 연회</th><td>6/8(월) 18:20~ / 711호 앞</td></tr>
+          <tr><th>금요 수료식</th><td>6/12(금) 12:00~ / 711호 앞</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════════════ CHECKLIST ══════════════════ -->
+<div id="tab-checklist" class="tab-content">
+<div class="content" id="checklistContent">
+  <!-- JS로 생성 -->
+</div>
+</div>
+
+<!-- ══════════════════ INFO ══════════════════ -->
+<div id="tab-info" class="tab-content">
+<div class="content">
+
+  <div class="card">
+    <div class="card-title"><span class="icon">📍</span> 훈련 기본 정보</div>
+    <div class="card-body">
+      <table class="info-table">
+        <tr><th>행사명</th><td>제349회 국제전도폭발 한국지도자 임상훈련</td></tr>
+        <tr><th>일시</th><td>2026년 6월 8일(월) ~ 12일(금)</td></tr>
+        <tr><th>장소</th><td>지구촌교회 분당채플 712호</td></tr>
+        <tr><th>숙소</th><td>더트리니티 어반스위트</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">👥</span> 주요 담당자</div>
+    <div class="card-body">
+      <table class="info-table">
+        <tr><th>총괄</th><td>유대연 목사, 김찬영 전도사, 정해성 전도사, 최정희 총무</td></tr>
+        <tr><th>행사운영</th><td>김찬영 전도사, 최정희 총무 (김진희, 김영선)</td></tr>
+        <tr><th>안내팀</th><td>박현민, 김현진, 변희남 (14명)</td></tr>
+        <tr><th>훈련자팀</th><td>유연희 팀장</td></tr>
+        <tr><th>시범자팀</th><td>여지연</td></tr>
+        <tr><th>식사팀</th><td>김수진 (박재영, 신현애)</td></tr>
+        <tr><th>숙소팀</th><td>정해성 전도사</td></tr>
+        <tr><th>찬양팀</th><td>정해성 전도사</td></tr>
+        <tr><th>중보기도</th><td>배미선, OB 송일령</td></tr>
+        <tr><th>채점팀</th><td>최정희</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="icon">🏢</span> 주요 공간 배치</div>
+    <div class="card-body">
+      <table class="info-table">
+        <tr><th>712호</th><td>메인 강의실</td></tr>
+        <tr><th>711호</th><td>연회장 / 간식 공간 / 월요연회 · 수료식</td></tr>
+        <tr><th>710호</th><td>시범자 대기실 / 채점실</td></tr>
+        <tr><th>702호</th><td>스탭 대기실</td></tr>
+        <tr><th>701호</th><td>간식 준비실 / 교사 휴게실</td></tr>
+        <tr><th>713호</th><td>본부 강사 대기실</td></tr>
+        <tr><th>MD 802, 803</th><td>예비실 (6/10 오전)</td></tr>
+        <tr><th>블레싱 VIP룸</th><td>중식·석식 장소 (지하2층)</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="notice">📅 찬양 PPT는 <strong>6월 2일(화)</strong>까지 본부로 공유해야 합니다.</div>
+
+</div>
+</div>
+
+<script>
+// ── 체크리스트 데이터 ──────────────────────────────
+const checkData = [
+  {
+    team: '총괄팀',
+    lead: '유대연 목사 · 김찬영 전도사 · 정해성 전도사 · 최정희 총무',
+    color: '#1a2f5a',
+    items: [
+      { text: '전체 일정표 확인 및 배포', who: '총무' },
+      { text: '팀별 역할 분장 완료', who: '담당 목사' },
+      { text: '강의 분담표 확정', who: '총무' },
+      { text: '예산 및 지출 계획 수립', who: '총무' },
+      { text: '최종 참석자 명단 확정 (메일/영문명)', who: '총무' },
+      { text: '비상 연락망 배포', who: '담당 목사' },
+    ]
+  },
+  {
+    team: '행사운영팀',
+    lead: '김찬영 전도사 · 최정희 총무',
+    color: '#2563eb',
+    items: [
+      { text: '명찰/교재패키지/등록명부 준비', who: '김찬영' },
+      { text: '비타민·구급함 구매', who: '김수진' },
+      { text: '좌석 배치도 작성', who: '김진희' },
+      { text: '조패/명패/명찰 제작', who: '김영선' },
+      { text: '현수막 제작·설치', who: '행사운영팀' },
+      { text: '현장전도 봉투·선물 준비', who: '행사운영팀' },
+      { text: '훈련생 선물 준비 (복음책 외 2개)', who: '행사운영팀' },
+      { text: '강의실/숙소/화장실 데코 완료', who: '행사운영팀' },
+    ]
+  },
+  {
+    team: '안내팀',
+    lead: '박현민 · 김현진 · 변희남',
+    color: '#0891b2',
+    items: [
+      { text: '차량사역실 모자·무전기 대여', who: '박현민' },
+      { text: '사무국 조끼 대여', who: '박현민' },
+      { text: '등록부스 인원 4~5명 배치', who: '박현민' },
+      { text: '안내판 준비 (7층 주차, 환영)', who: '변희남' },
+      { text: '비품 확인 계획 수립', who: '신현애' },
+      { text: '꽃 위치 세팅', who: '신현애' },
+    ]
+  },
+  {
+    team: '시설팀',
+    lead: '정해성 전도사',
+    color: '#7c3aed',
+    items: [
+      { text: '현수막 설치 완료 (주차장, 7층, 지하)', who: '시설팀' },
+      { text: '식수대 설치 (712호 입구, 711호 뒤)', who: '시설팀' },
+      { text: '간식 테이블 711호 10개 설치', who: '시설팀' },
+      { text: '712호 콘센트 설치 (노트북용)', who: '시설팀' },
+      { text: '701, 711, 712 룸 조정 확인', who: '정해성' },
+      { text: 'MD 802, 803 예비 예약 확인 (6/10)', who: '정해성' },
+    ]
+  },
+  {
+    team: '훈련자팀',
+    lead: '유연희 팀장',
+    color: '#059669',
+    items: [
+      { text: '훈련자 모집 완료', who: '유연희' },
+      { text: '훈련조 편성 완료', who: '여지연' },
+      { text: '현장전도 물품 체크', who: '김영선' },
+      { text: '대상자 관리 준비', who: '이지혜' },
+      { text: '구두복음제시 평가 점검자 22명 배치', who: '유연희' },
+      { text: '수료식 배지 수여 훈련자 22명 확정', who: '유연희' },
+    ]
+  },
+  {
+    team: '시범자팀',
+    lead: '여지연',
+    color: '#d97706',
+    items: [
+      { text: '시범자 선정 완료 (3단계 이상)', who: '여지연' },
+      { text: '팀별 연습 완료', who: '여지연' },
+      { text: '본부 리허설 대비 연습', who: '여지연' },
+      { text: '질문지 전도팀 시나리오·복장 준비', who: '여지연' },
+    ]
+  },
+  {
+    team: '식사·간식팀',
+    lead: '김수진',
+    color: '#dc2626',
+    items: [
+      { text: '식단표 확정', who: '김수진' },
+      { text: '블레싱 VIP룸 예약 확인', who: '김수진' },
+      { text: '월요 연회 메뉴 준비', who: '김수진' },
+      { text: '간식 재료 구매', who: '박재영' },
+      { text: '간식 테이블 세팅', who: '신현애' },
+    ]
+  },
+  {
+    team: '숙소·차량팀',
+    lead: '정해성 전도사',
+    color: '#0284c7',
+    items: [
+      { text: '숙소 예약 확인 (더트리니티)', who: '정해성' },
+      { text: '숙소 배치표 작성', who: '정해성' },
+      { text: '요일별 차량 담당자 확정 (4명)', who: '정해성' },
+      { text: '숙소 간식 준비 (첫날 배부)', who: '정해성' },
+    ]
+  },
+  {
+    team: '찬양팀',
+    lead: '정해성 전도사',
+    color: '#7c3aed',
+    items: [
+      { text: '찬양인도자·반주자·싱어 섭외', who: '정해성' },
+      { text: '찬양 곡 선정 및 악보 준비', who: '찬양팀' },
+      { text: '찬양 PPT 제작 (16:9)', who: '찬양인도자' },
+      { text: 'PPT 본부 공유 (6/2 화요일까지)', who: '찬양인도자' },
+    ]
+  },
+  {
+    team: '중보기도팀',
+    lead: '배미선 · OB 송일령',
+    color: '#be185d',
+    items: [
+      { text: '훈련생 명단·연락처 수령', who: '배미선' },
+      { text: '기도제목 이메일 발송', who: '배미선' },
+      { text: '릴레이 기도표 작성·배부', who: '배미선' },
+      { text: '중보기도실 예약', who: '배미선' },
+      { text: '중보기도카드 제작', who: '배미선' },
+      { text: '중보기도팀 간식 준비', who: '배미선' },
+    ]
+  },
+  {
+    team: '채점·방명록팀',
+    lead: '최정희',
+    color: '#374151',
+    items: [
+      { text: '파랑펜 준비 (채점용)', who: '최정희' },
+      { text: '과제물 제출표 스티커 준비', who: '최정희' },
+      { text: '간증자 선정 기준 공유', who: '최정희' },
+      { text: '간증문 점검 교사 배정', who: '최정희' },
+      { text: '방명록 준비 (월요 연회 / 수료식)', who: '최정희' },
+    ]
+  },
+];
+
+// ── 상태 관리 ──────────────────────────────────────
+const KEY = 'ee349_checks_v1';
+let state = {};
+
+function loadState() {
+  try { state = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch { state = {}; }
+}
+function saveState() {
+  localStorage.setItem(KEY, JSON.stringify(state));
+}
+function getKey(teamIdx, itemIdx) { return `${teamIdx}_${itemIdx}`; }
+
+// ── 체크리스트 렌더 ──────────────────────────────────
+function renderChecklist() {
+  const container = document.getElementById('checklistContent');
+  let html = '';
+  checkData.forEach((team, ti) => {
+    const done = team.items.filter((_, ii) => state[getKey(ti, ii)]).length;
+    const pct = Math.round(done / team.items.length * 100);
+    html += `
+      <div class="card" style="margin-bottom:10px">
+        <div class="card-title" style="background:#f8faff;flex-wrap:wrap;gap:4px">
+          <span class="icon" style="background:${team.color}20;color:${team.color}">✓</span>
+          <span style="font-weight:700">${team.team}</span>
+          <span style="font-size:11px;color:#6b7280;font-weight:400">${team.lead || ''}</span>
+          <span style="margin-left:auto;font-size:12px;color:${team.color};font-weight:700">${done}/${team.items.length}</span>
+        </div>
+        <div style="height:3px;background:#f0f0f0"><div style="height:3px;background:${team.color};width:${pct}%;transition:width .3s"></div></div>
+        <div class="card-body" style="padding:6px 12px">
+          <ul class="checklist">`;
+    team.items.forEach((item, ii) => {
+      const checked = !!state[getKey(ti, ii)];
+      html += `
+        <li onclick="toggleCheck(${ti},${ii})">
+          <div class="check-box ${checked ? 'checked' : ''}"></div>
+          <span class="check-text ${checked ? 'done' : ''}">${item.text}</span>
+          <span class="check-assignee">${item.who}</span>
+        </li>`;
+    });
+    html += `</ul></div></div>`;
+  });
+  html += `<div style="text-align:center;padding:8px 0 20px"><button class="reset-btn" onclick="resetAll()">전체 초기화</button></div>`;
+  container.innerHTML = html;
+}
+
+function toggleCheck(ti, ii) {
+  const k = getKey(ti, ii);
+  state[k] = !state[k];
+  saveState();
+  renderChecklist();
+  updateDashboard();
+}
+
+function resetAll() {
+  if (confirm('모든 체크를 초기화할까요?')) {
+    state = {};
+    saveState();
+    renderChecklist();
+    updateDashboard();
+  }
+}
+
+// ── 대시보드 ──────────────────────────────────────────
+function updateDashboard() {
+  const grid = document.getElementById('progressGrid');
+  let totalChecked = 0, totalItems = 0;
+  let html = '';
+  checkData.forEach((team, ti) => {
+    const done = team.items.filter((_, ii) => state[getKey(ti, ii)]).length;
+    const total = team.items.length;
+    const pct = Math.round(done / total * 100);
+    totalChecked += done;
+    totalItems += total;
+    html += `
+      <div class="prog-card" style="--c:${team.color}" onclick="goToTeamCheck(${ti})">
+        <div class="team-name">${team.team}</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+        <div class="prog-nums">
+          <span class="prog-pct">${pct}%</span>
+          <span class="prog-frac">${done}/${total}</span>
+        </div>
+      </div>`;
+  });
+  grid.innerHTML = html;
+
+  const pct = totalItems ? Math.round(totalChecked / totalItems * 100) : 0;
+  document.getElementById('totalChecked').textContent = totalChecked;
+  document.getElementById('totalItems').textContent = totalItems;
+  document.getElementById('totalPct').textContent = pct + '%';
+}
+
+function goToTeamCheck(ti) {
+  switchTab('checklist');
+  setTimeout(() => {
+    const cards = document.querySelectorAll('#checklistContent .card');
+    if (cards[ti]) cards[ti].scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 100);
+}
+
+// ── 탭 전환 ──────────────────────────────────────────
+function switchTab(name) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  const map = { dashboard: 0, schedule: 1, teams: 2, checklist: 3, cuesheet: 4, venue: 5, members: 6, meals: 7, info: 8 };
+  document.querySelectorAll('.tab-btn')[map[name]].classList.add('active');
+}
+
+function switchDay(idx, btn) {
+  document.querySelectorAll('[id^="day-"]').forEach(el => el.classList.remove('active'));
+  document.getElementById('day-' + idx).classList.add('active');
+  document.querySelectorAll('#tab-schedule .day-btn').forEach(el => el.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function switchTeam(idx, btn) {
+  document.querySelectorAll('[id^="team-"]').forEach(el => el.classList.remove('active'));
+  document.getElementById('team-' + idx).classList.add('active');
+  document.querySelectorAll('#tab-teams .day-btn').forEach(el => el.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+
+function switchCue(idx, btn) {
+  document.querySelectorAll('[id^="cue-"]').forEach(el => el.classList.remove('active'));
+  document.getElementById('cue-' + idx).classList.add('active');
+  document.querySelectorAll('#tab-cuesheet .day-btn').forEach(el => el.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function switchMember(idx, btn) {
+  document.querySelectorAll('[id^="member-"]').forEach(el => el.classList.remove('active'));
+  document.getElementById('member-' + idx).classList.add('active');
+  document.querySelectorAll('#tab-members .day-btn').forEach(el => el.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ── 초기화 ──────────────────────────────────────────
+loadState();
+renderChecklist();
+updateDashboard();
+</script>
+
+
+<!-- ══════════════════ CUESHEET ══════════════════ -->
+<div id="tab-cuesheet" class="tab-content">
+<div class="content">
+
+  <div class="day-strip">
+    <button class="day-btn active" onclick="switchCue(0,this)"><div class="day" style="font-size:10px">월요연회</div></button>
+    <button class="day-btn" onclick="switchCue(1,this)"><div class="day" style="font-size:10px">수료예배</div></button>
+    <button class="day-btn" onclick="switchCue(2,this)"><div class="day" style="font-size:10px">강의분담</div></button>
+  </div>
+
+  <!-- 월요 연회 큐시트 -->
+  <div id="cue-0" class="sub-content active">
+    <div class="team-header">
+      <h2>월요 연회 큐시트</h2>
+      <div class="team-meta">6월 8일(월) 저녁 6시 40분 · 분당채플 711호 · 사회: 유대연 목사</div>
+    </div>
+    <div class="card">
+      <div class="card-body" style="padding:8px 12px">
+        <table class="cue-table">
+          <tr><th>시간</th><th>소요</th><th>순서</th><th>담당</th></tr>
+          <tr><td class="cue-time">5:00–6:30</td><td class="cue-dur">90분</td><td>세팅<br><span class="cue-note">식사업체 확인·세팅, 현수막·배너 준비, 영상·사진촬영 준비, 마이크·음향 점검, 연회 순서지·방명록·PPT 준비, 간증자·특송자 확인</span></td><td>프로그램·세팅 담당자</td></tr>
+          <tr><td class="cue-time">6:30–6:40</td><td class="cue-dur">10분</td><td>연회장소(711호) 이동</td><td>—</td></tr>
+          <tr><td class="cue-time">6:40–6:41</td><td class="cue-dur">1분</td><td>식사기도</td><td>사회자</td></tr>
+          <tr><td class="cue-time">6:41–7:40</td><td class="cue-dur">59분</td><td>식사 교제(자유롭게 만찬)<br><span class="cue-note">식사 순서: 훈련생 → 본부 이사 → 특별손님 → 교회 식구</span></td><td>사회자</td></tr>
+          <tr><td class="cue-time">7:40–7:50</td><td class="cue-dur">10분</td><td>찬양<br><span class="cue-note">반주자·싱어·악보, 찬양PPT, 신디·기타·마이크</span></td><td>정해성 전도사</td></tr>
+          <tr><td class="cue-time">7:50–7:52</td><td class="cue-dur">2분</td><td>내빈 소개<br><span class="cue-note">①훈련생 ②본부이사·강사·직원 ③특별손님(임상기지교회) ④교회 가족</span></td><td>사회자</td></tr>
+          <tr><td class="cue-time">7:52–8:00</td><td class="cue-dur">8분</td><td>환영사</td><td>유의동 목사<br><span class="cue-note">(지구촌교회 사역조정실장)</span></td></tr>
+          <tr><td class="cue-time">8:00–8:05</td><td class="cue-dur">5분</td><td>특별찬양<br><span class="cue-note">마이크·MR 확인, 모니터 스피커 점검</span></td><td>임찬희 성도</td></tr>
+          <tr><td class="cue-time">8:05–8:06</td><td class="cue-dur">1분</td><td>간증자 3명 소개</td><td>사회자</td></tr>
+          <tr><td class="cue-time">8:06–8:21</td><td class="cue-dur">15분</td><td>간증 (3명)<br><span class="cue-note">간증문 준비(케이스), 마이크 점검</span></td><td>간증자</td></tr>
+          <tr><td class="cue-time">8:21–8:26</td><td class="cue-dur">5분</td><td>인사말</td><td>홍문균 목사</td></tr>
+          <tr><td class="cue-time">8:26–8:29</td><td class="cue-dur">3분</td><td>합심기도</td><td>사회자</td></tr>
+          <tr><td class="cue-time">8:29–8:30</td><td class="cue-dur">1분</td><td>마무리기도 및 축도</td><td>유의동 목사</td></tr>
+          <tr><td class="cue-time">8:30–</td><td class="cue-dur">—</td><td>광고 및 숙소로 이동</td><td>사회자</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="notice">📌 방명록 확인: 임상기지교회 및 훈련생 참여교회 방문 방명록</div>
+  </div>
+
+  <!-- 수료예배 큐시트 -->
+  <div id="cue-1" class="sub-content">
+    <div class="team-header">
+      <h2>수료예배 큐시트</h2>
+      <div class="team-meta">6월 12일(금) 오후 1시 30분 · 분당채플 711호 · 사회: 유대연 목사</div>
+    </div>
+    <div class="card">
+      <div class="card-body" style="padding:8px 12px">
+        <table class="cue-table">
+          <tr><th>시간</th><th>소요</th><th>순서</th><th>담당</th></tr>
+          <tr><td class="cue-time">12:40–1:30</td><td class="cue-dur">50분</td><td>점심식사(지하2층 블레싱 VIP룸)<br><span class="cue-note">현수막·배너 준비, 교사·헬퍼·스텝</span></td><td>다같이</td></tr>
+          <tr><td class="cue-time">1:30–1:40</td><td class="cue-dur">10분</td><td>찬양 (2곡)<br><span class="cue-note">반주자·싱어·악보, 찬양PPT, 신디·기타·마이크</span></td><td>정해성 전도사</td></tr>
+          <tr><td class="cue-time">1:40–1:42</td><td class="cue-dur">2분</td><td>기도</td><td>—</td></tr>
+          <tr><td class="cue-time">1:42–1:44</td><td class="cue-dur">2분</td><td>내외빈 소개<br><span class="cue-note">①훈련생 ②본부이사·강사·직원 ③특별손님(임상기지교회 및 외부교회) ④교회 가족</span></td><td>사회자</td></tr>
+          <tr><td class="cue-time">1:44–1:54</td><td class="cue-dur">10분</td><td>스케치 영상 상영</td><td>한국본부</td></tr>
+          <tr><td class="cue-time">1:54–1:55</td><td class="cue-dur">1분</td><td>담임목사 소개 및 성경봉독</td><td>사회자</td></tr>
+          <tr><td class="cue-time">1:55–2:10</td><td class="cue-dur">15분</td><td>말씀 및 격려사</td><td>김우준 담임목사</td></tr>
+          <tr><td class="cue-time">2:10–2:30</td><td class="cue-dur">20분</td><td>훈련생 수료간증 (4명)</td><td>간증자</td></tr>
+          <tr><td class="cue-time">2:30–2:35</td><td class="cue-dur">5분</td><td>수료증 수여(나이로)<br><span class="cue-note">훈련생 대표자에게 수여 · 강단에 수료증 준비</span></td><td>홍문균 목사</td></tr>
+          <tr><td class="cue-time">2:35–2:40</td><td class="cue-dur">5분</td><td>배지 수여<br><span class="cue-note">①김우준 담임목사→대표자(핀) ②훈련자들→훈련생들(핀과 선물)</span></td><td>김우준 담임목사</td></tr>
+          <tr><td class="cue-time">2:40–2:45</td><td class="cue-dur">5분</td><td>감사의 말씀</td><td>홍문균 목사</td></tr>
+          <tr><td class="cue-time">2:45–2:46</td><td class="cue-dur">1분</td><td>게스트 소개</td><td>사회자</td></tr>
+          <tr><td class="cue-time">2:46–2:51</td><td class="cue-dur">5분</td><td>특별순서(특송)<br><span class="cue-note">마이크·MR 확인, 모니터 스피커 점검</span></td><td>—</td></tr>
+          <tr><td class="cue-time">2:51–2:54</td><td class="cue-dur">3분</td><td>결단과 기도의 시간</td><td>사회자 (기도반주)</td></tr>
+          <tr><td class="cue-time">2:54–2:55</td><td class="cue-dur">1분</td><td>마무리기도 및 축도</td><td>김우준 담임목사</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 강의 분담표 -->
+  <div id="cue-2" class="sub-content">
+    <div class="team-header">
+      <h2>강의 분담표</h2>
+      <div class="team-meta">2026년 6월 8일(월) ~ 12일(금) · 지구촌교회</div>
+    </div>
+    <div class="card">
+      <div class="card-body" style="padding:8px 12px">
+        <table class="cue-table">
+          <tr><th>시간</th><th>강의 제목</th><th>담당</th></tr>
+          <tr><td colspan="3" style="background:#e0effe;font-weight:700;text-align:center;color:var(--navy)">월요일</td></tr>
+          <tr><td class="cue-time">01:30–02:20</td><td>제1과 평신도 무장하기 Ⅰ</td><td>홍문균 목사</td></tr>
+          <tr><td class="cue-time">02:40–03:30</td><td>제1과 평신도 무장하기 Ⅱ</td><td>홍문균 목사</td></tr>
+          <tr><td class="cue-time">04:40–05:30</td><td>제2과 친구 만들기</td><td>홍문균 목사</td></tr>
+          <tr><td class="cue-time">05:40–06:30</td><td>제3과 간증 나누기</td><td>유대연 목사</td></tr>
+          <tr><td colspan="3" style="background:#e0effe;font-weight:700;text-align:center;color:var(--navy)">화요일</td></tr>
+          <tr><td class="cue-time">09:30–10:00</td><td>간증문 교정</td><td>유대연 목사</td></tr>
+          <tr><td class="cue-time">10:00–10:50</td><td>제4과 진단질문 사용하기</td><td>유대연 목사</td></tr>
+          <tr><td class="cue-time">11:10–12:00</td><td>제5과 은혜, 인간, 하나님</td><td>최성결 목사</td></tr>
+          <tr><td class="cue-time">12:10–01:00</td><td>제6과 예수 그리스도, 믿음</td><td>최성결 목사</td></tr>
+          <tr><td class="cue-time">07:00–08:00</td><td>제7과 결신 초청하기</td><td>유대연 목사</td></tr>
+          <tr><td colspan="3" style="background:#e0effe;font-weight:700;text-align:center;color:var(--navy)">수요일</td></tr>
+          <tr><td class="cue-time">09:20–10:20</td><td>제8과 새신자 제자 삼기와 양육</td><td>유대연 목사</td></tr>
+          <tr><td class="cue-time">10:30–11:20</td><td>제9과 모집하기 확대하기</td><td>김동수 목사</td></tr>
+          <tr><td colspan="3" style="background:#e0effe;font-weight:700;text-align:center;color:var(--navy)">목요일</td></tr>
+          <tr><td class="cue-time">09:10–10:10</td><td>제10과 전도의 생활화와 상황에 맞는 복음제시</td><td>김동수 목사</td></tr>
+          <tr><td class="cue-time">10:30–12:00</td><td>제11과 반대의견 다루기</td><td>홍문균 목사</td></tr>
+          <tr><td colspan="3" style="background:#e0effe;font-weight:700;text-align:center;color:var(--navy)">금요일</td></tr>
+          <tr><td class="cue-time">11:30–12:40</td><td>제12과 지역교회 훈련시작 안내</td><td>홍문균 목사</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════════════ VENUE ══════════════════ -->
+<div id="tab-venue" class="tab-content">
+<div class="content">
+
+  <div class="team-header" style="margin-bottom:12px">
+    <h2>임상훈련 장소 안내</h2>
+    <div class="team-meta">지구촌교회 분당채플 7층 · 현장전도: 2~4층 셀룸</div>
+  </div>
+
+  <!-- 공간 배치 -->
+  <div class="card">
+    <div class="card-title"><span class="icon">🏢</span> 공간 배치</div>
+    <div class="card-body">
+      <table class="info-table">
+        <tr><th><span class="room-badge">712호</span></th><td>메인 강의실</td></tr>
+        <tr><th><span class="room-badge">711호</span></th><td>간식 공간 / 훈련자 대기실 / 월요연회 · 수료식</td></tr>
+        <tr><th><span class="room-badge">710호</span></th><td>시범자 대기실 / 훈련생 간증문 점검실<br><span style="font-size:11px;color:#e11d48">※ 6/10(수) 9~13시, 6/12(금) 11~13시 타 사용</span></td></tr>
+        <tr><th><span class="room-badge">702호</span></th><td>스탭 대기실</td></tr>
+        <tr><th><span class="room-badge">701호</span></th><td>간식 준비실 / 지구촌교회 교사 휴게실</td></tr>
+        <tr><th><span class="room-badge">713호</span></th><td>본부 강사 대기실</td></tr>
+        <tr><th><span class="room-badge">MD 802,803</span></th><td>예비실 (6/10 오전)</td></tr>
+        <tr><th><span class="room-badge">VIP룸</span></th><td>중식·석식 (지하2층 블레싱 식당)</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 강의실 필요 물품 -->
+  <div class="card">
+    <div class="card-title"><span class="icon">📦</span> 712호 강의실 필요 물품</div>
+    <div class="card-body">
+      <table class="info-table">
+        <tr><th>강대상</th><td>1개 (교재 놓을 수 있는 크기)</td></tr>
+        <tr><th>마이크</th><td>2개 (강사1, 찬양인도자1) + 방역용 마이크 커버</td></tr>
+        <tr><th>시범테이블</th><td>원형 1개 (테이블 데코·센터피스)</td></tr>
+        <tr><th>시범의자</th><td>4개</td></tr>
+        <tr><th>시범마이크</th><td>2개 (핀1-전도자, 무선1-대상자)</td></tr>
+        <tr><th>현수막</th><td>2개 (중앙-복음제시 개요도(대), 왼쪽-시범용)</td></tr>
+        <tr><th>강의실 앞 테이블</th><td>3개 (왼쪽2-강사용 교재 샘플, 오른쪽1-홍문균 목사 평가석)</td></tr>
+        <tr><th>강의실 앞 의자</th><td>4개 (왼쪽3-공개보고회 대기석, 오른쪽1-홍문균 목사)</td></tr>
+        <tr><th>훈련생 테이블</th><td>22개 (한 줄 3개씩 8줄)</td></tr>
+        <tr><th>훈련생 의자</th><td>66개 (테이블당 3명: 훈련생1 · 훈련자 · 훈련생2)</td></tr>
+        <tr><th>조패·명패</th><td>양면 인쇄 (테이블 가운데-조패, 양쪽-명패)</td></tr>
+        <tr><th>뒤쪽 본부 테이블</th><td>2개 (김동수 목사, 백종성 간사)</td></tr>
+        <tr><th>강사 테이블</th><td>1개 (홍문균·최성결 목사)</td></tr>
+        <tr><th>기지교회 테이블</th><td>2개 (교역자, 총무)</td></tr>
+        <tr><th>악기</th><td>키보드, 기타</td></tr>
+        <tr><th>콘센트</th><td>믹서 주변 (노트북용)</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 711호 세팅 -->
+  <div class="card">
+    <div class="card-title"><span class="icon">🪑</span> 711호 세팅</div>
+    <div class="card-body">
+      <table class="info-table">
+        <tr><th>원탁</th><td>10개</td></tr>
+        <tr><th>의자</th><td>원탁 1개당 10개 × 10 = 총 100개</td></tr>
+        <tr><th>간증자 테이블</th><td>4개 (진행자 3개 포함)</td></tr>
+        <tr><th>간식 테이블</th><td>2개</td></tr>
+        <tr><th>강단 마이크</th><td>1개 (수료식 때 2개)</td></tr>
+        <tr><th>악기</th><td>키보드, 기타</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 현수막 설치 -->
+  <div class="card">
+    <div class="card-title"><span class="icon">🚩</span> 현수막·배너 설치</div>
+    <div class="card-body">
+      <table class="info-table">
+        <tr><th>주차장</th><td>입구 현수막(가로형) 1개</td></tr>
+        <tr><th>7층</th><td>X배너 3개 (행사 안내)</td></tr>
+        <tr><th>712호</th><td>강의실 기본 현수막(가로형) + 복음제시 개요도</td></tr>
+        <tr><th>711호</th><td>환영·축하 현수막</td></tr>
+        <tr><th>지하 식당</th><td>X배너 1개 + 복음제시 개요도</td></tr>
+        <tr><th>화장실</th><td>5가지 예화 (코팅)</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 식수대 및 간식 -->
+  <div class="card">
+    <div class="card-title"><span class="icon">💧</span> 식수대 / 간식 세팅</div>
+    <div class="card-body">
+      <table class="info-table">
+        <tr><th>식수대</th><td>712호 입구 1개(상시) / 711호 뒤편 1개(상시)</td></tr>
+        <tr><th>간식 테이블</th><td>711호 10개</td></tr>
+        <tr><th>712호 앞 광장</th><td>원탁 중앙 1개 / 등록 테이블 2개 / 간식 테이블 2개 / 사진촬영 테이블 1개</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 요일별 셀룸 -->
+  <div class="card">
+    <div class="card-title"><span class="icon">📍</span> 요일별 현장전도 셀룸</div>
+    <div class="card-body">
+      <table class="info-table">
+        <tr><th>6/9(화)<br>오후 1~5시</th><td class="cell-list"><b>분당 27개:</b> 202, 204, 213, 214, 215, 216, 217, 218, 219, 220, 224, 225, 226, 227, 228, 229, 310, 311, 312, 313, 314, 317, 402, 403, 404, 406, 407<br><b>수지 10개:</b> 112, 209, 302, 303, 306, 309, 501, 701, B05, B09</td></tr>
+        <tr><th>6/10(수)<br>오후 1~5시</th><td class="cell-list"><b>분당 27개:</b> 202, 203, 204, 210, 213, 214, 215, 216, 217, 218, 219, 220, 222, 223, 227, 229, 310, 311, 312, 313, 314, 317, 402, 403, 404, 406, 407<br><b>수지 10개:</b> 112, 209, 302, 303, 306, 309, 501, 701, B05, B09</td></tr>
+        <tr><th>6/11(목)<br>오후 1~5시</th><td class="cell-list"><b>분당 10개:</b> 202, 203, 204, 213, 214, 215, 216, 217, 218, 219</td></tr>
+        <tr><th>6/12(금)<br>오전 8~11시</th><td class="cell-list"><b>분당 31개:</b> 202, 203, 204, 210, 213, 214, 215, 216, 217, 218, 219, 220, 222, 223, 224, 225, 226, 227, 228, 229, 310, 311, 312, 313, 314, 317, 402, 403, 404, 406, 407</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="notice">⚠️ 6/10(수) 오전 9~12시 MD 802, 803 예비 예약 완료 · 701, 711, 712 룸 조정 필수</div>
+
+  <!-- 버스 시간표 -->
+  <div class="card">
+    <div class="card-title"><span class="icon">🚐</span> 버스 이동 시간표 (더트리니티 ↔ 분당채플)</div>
+    <div class="card-body">
+      <table class="bus-table">
+        <tr><th>요일</th><th>숙소 출발</th><th>교회 도착</th><th>교회 출발</th><th>숙소 도착</th></tr>
+        <tr><td>월(6/8)</td><td>—</td><td>—</td><td>오후 8:30</td><td>오후 8:35+</td></tr>
+        <tr><td>화(6/9)</td><td>오전 7:30</td><td>오전 7:35+</td><td>오후 8:10</td><td>오후 8:15+</td></tr>
+        <tr><td>수(6/10)</td><td>오전 7:30</td><td>오전 7:35+</td><td>오후 6:55</td><td>오후 7:00+</td></tr>
+        <tr><td>목(6/11)</td><td>오전 7:30</td><td>오전 7:35+</td><td>오후 7:30</td><td>오후 7:35+</td></tr>
+        <tr><td>금(6/12)</td><td>오전 7:30</td><td>오전 7:35+</td><td>—</td><td>—</td></tr>
+      </table>
+      <div style="margin-top:8px;font-size:11px;color:var(--gray)">버스 대기: 숙소 앞 / 교회 1층 주차장 앞 · 왕복 55만원 (길벗스페이스)</div>
+    </div>
+  </div>
+
+  <!-- 찬양팀 스케줄 -->
+  <div class="card">
+    <div class="card-title"><span class="icon">🎵</span> 찬양팀 날짜별 스케줄</div>
+    <div class="card-body" style="padding:8px 12px">
+      <table class="cue-table">
+        <tr><th>날짜</th><th>시간</th><th>진행</th><th>인도</th><th>반주</th><th>싱어</th></tr>
+        <tr><td>6/8(월)</td><td class="cue-time">12:40–12:45</td><td>환영의 시간</td><td>정해성</td><td>김근혜</td><td>박재영·김진희·한선영</td></tr>
+        <tr><td>6/8(월)</td><td class="cue-time">7:40–7:50</td><td>월요 연회</td><td>정해성</td><td>김근혜</td><td>박재영·조소영·한선영</td></tr>
+        <tr><td>6/9(화)</td><td class="cue-time">08:40–09:20</td><td>경건회·합심기도</td><td>정해성</td><td>김근혜</td><td>박재영·한선영</td></tr>
+        <tr><td>6/9(화)</td><td class="cue-time">02:20–02:40</td><td>방문전도 안내/기도</td><td>정해성</td><td>MR</td><td>—</td></tr>
+        <tr><td>6/10(수)</td><td class="cue-time">09:00–09:10</td><td>합심기도</td><td>정해성</td><td>기타반주</td><td>—</td></tr>
+        <tr><td>6/10(수)</td><td class="cue-time">02:00–02:10</td><td>방문전도 안내/기도</td><td>정해성</td><td>MR</td><td>—</td></tr>
+        <tr><td>6/11(목)</td><td class="cue-time">08:20–09:00</td><td>경건회·합심기도</td><td>정해성</td><td>김근혜</td><td>박재영·배미선</td></tr>
+        <tr><td>6/11(목)</td><td class="cue-time">01:30–01:50</td><td>노방전도 안내/기도</td><td>정해성</td><td>MR</td><td>—</td></tr>
+        <tr><td>6/12(금)</td><td class="cue-time">08:20–09:00</td><td>경건회·합심기도</td><td>정해성</td><td>김근혜</td><td>박재영·김영선</td></tr>
+        <tr><td>6/12(금)</td><td class="cue-time">1:10–1:15</td><td>수료식</td><td>정해성</td><td>김근혜</td><td>박재영·한선영</td></tr>
+      </table>
+      <div style="margin-top:8px;font-size:11px;color:var(--gray)">찬양PPT(16:9) → 6/2(화)까지 본부 공유 필수 | 곡 주제: 십자가·보혈·예수 그리스도·전도 사명</div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════════════ MEMBERS ══════════════════ -->
+<div id="tab-members" class="tab-content">
+<div class="content">
+
+  <div class="day-strip">
+    <button class="day-btn active" onclick="switchMember(0,this)"><div class="day" style="font-size:10px">훈련자</div></button>
+    <button class="day-btn" onclick="switchMember(1,this)"><div class="day" style="font-size:10px">시범자</div></button>
+    <button class="day-btn" onclick="switchMember(2,this)"><div class="day" style="font-size:10px">평가·수료</div></button>
+    <button class="day-btn" onclick="switchMember(3,this)"><div class="day" style="font-size:10px">중보기도</div></button>
+    <button class="day-btn" onclick="switchMember(4,this)"><div class="day" style="font-size:10px">조직도</div></button>
+  </div>
+
+  <!-- 훈련자 명단 -->
+  <div id="member-0" class="sub-content active">
+    <div class="team-header"><h2>훈련자 참석 명단</h2><div class="team-meta">2026년 6월 9일(화)~12일(금) · ● = 참석</div></div>
+    <div class="card">
+      <div class="card-body" style="padding:6px 8px;overflow-x:auto">
+        <table class="member-table">
+          <tr><th>No</th><th>반</th><th>이름</th><th>연락처</th><th>화</th><th>수</th><th>목</th><th>금</th></tr>
+          <tr><td>1</td><td>화요</td><td>김미영</td><td></td><td class="dot-y">●</td><td></td><td></td><td></td></tr>
+          <tr><td>2</td><td>화요</td><td>김상심</td><td></td><td class="dot-y">●</td><td></td><td></td><td></td></tr>
+          <tr><td>3</td><td>화요</td><td>김소영</td><td></td><td class="dot-y">●</td><td></td><td></td><td class="dot-y">●</td></tr>
+          <tr><td>4</td><td>화요</td><td>김순이</td><td></td><td></td><td></td><td class="dot-y">●</td><td></td></tr>
+          <tr><td>5</td><td>화요</td><td>김은정</td><td></td><td></td><td></td><td></td><td class="dot-y">●</td></tr>
+          <tr><td>6</td><td>화요</td><td>김주경</td><td></td><td class="dot-y">●</td><td></td><td></td><td class="dot-y">●</td></tr>
+          <tr><td>7</td><td>화요</td><td>김태경</td><td></td><td class="dot-y">●</td><td></td><td></td><td class="dot-y">●</td></tr>
+          <tr><td>8</td><td>화요</td><td>박경선</td><td></td><td></td><td></td><td></td><td class="dot-y">●</td></tr>
+          <tr><td>9</td><td>화요</td><td>박정민</td><td></td><td class="dot-y">●</td><td></td><td class="dot-y">●</td><td></td></tr>
+          <tr><td>10</td><td>화요</td><td>복경미</td><td></td><td class="dot-y">●</td><td class="dot-y">●</td><td class="dot-y">●</td><td></td></tr>
+          <tr><td>11</td><td>화요</td><td>서소아</td><td></td><td class="dot-y">●</td><td></td><td class="dot-y">●</td><td></td></tr>
+          <tr><td>12</td><td>화요</td><td>안미현</td><td></td><td class="dot-y">●</td><td class="dot-y">●</td><td class="dot-y">●</td><td class="dot-y">●</td></tr>
+          <tr><td>13</td><td>화요</td><td>오태근</td><td></td><td class="dot-y">●</td><td></td><td class="dot-y">●</td><td></td></tr>
+          <tr><td>14</td><td>화요</td><td>이미자</td><td></td><td class="dot-y">●</td><td class="dot-y">●</td><td></td><td></td></tr>
+          <tr><td>15</td><td>화요</td><td>이민정</td><td></td><td></td><td></td><td class="dot-y">●</td><td></td></tr>
+          <tr><td>16</td><td>화요</td><td>이선화</td><td></td><td class="dot-y">●</td><td class="dot-y">●</td><td></td><td></td></tr>
+          <tr><td>17</td><td>화요</td><td>이지윤</td><td></td><td class="dot-y">●</td><td class="dot-y">●</td><td class="dot-y">●</td><td></td></tr>
+          <tr><td>18</td><td>화요</td><td>임정희</td><td></td><td class="dot-y">●</td><td></td><td></td><td></td></tr>
+          <tr><td>19</td><td>화요</td><td>전한나</td><td></td><td class="dot-y">●</td><td></td><td></td><td></td></tr>
+          <tr><td>20</td><td>화요</td><td>정민희</td><td></td><td class="dot-y">●</td><td class="dot-y">●</td><td></td><td></td></tr>
+          <tr><td>21</td><td>화요</td><td>전지혜</td><td></td><td></td><td></td><td class="dot-y">●</td><td></td></tr>
+          <tr><td>22</td><td>화요</td><td>조가비</td><td></td><td></td><td></td><td class="dot-y">●</td><td></td></tr>
+          <tr><td>23</td><td>화요</td><td>최지영</td><td></td><td></td><td class="dot-y">●</td><td></td><td></td></tr>
+          <tr><td>24</td><td>화요</td><td>채미양</td><td></td><td class="dot-y">●</td><td></td><td></td><td></td></tr>
+          <tr><td>25</td><td>화요</td><td>하상희</td><td></td><td></td><td></td><td class="dot-y">●</td><td></td></tr>
+          <tr><td>26</td><td>수주</td><td>계인선</td><td>010-9008-7122</td><td></td><td></td><td></td><td class="dot-y">●</td></tr>
+          <tr><td>27</td><td>수주</td><td>김성현</td><td>010-8969-1371</td><td class="dot-y">●</td><td></td><td></td><td></td></tr>
+          <tr><td>28</td><td>수주</td><td>김윤희</td><td>010-8751-6828</td><td></td><td></td><td class="dot-y">●</td><td></td></tr>
+          <tr><td>29</td><td>수주</td><td>김혁주</td><td>010-2855-2561</td><td class="dot-y">●</td><td></td><td></td><td></td></tr>
+          <tr><td>30</td><td>수주</td><td>박선영</td><td>010-6407-7262</td><td></td><td></td><td></td><td class="dot-y">●</td></tr>
+          <tr><td>31</td><td>수주</td><td>백 남</td><td>010-7616-5040</td><td class="dot-y">●</td><td></td><td></td><td></td></tr>
+          <tr><td>32</td><td>수주</td><td>성기현</td><td>010-2239-3739</td><td></td><td></td><td class="dot-y">●</td><td></td></tr>
+          <tr><td>33</td><td>수주</td><td>안현주</td><td>010-5337-3699</td><td></td><td class="dot-y">●</td><td></td><td></td></tr>
+          <tr><td>34</td><td>수주</td><td>윤성원</td><td>010-2315-8050</td><td></td><td></td><td></td><td class="dot-y">●</td></tr>
+          <tr><td>35</td><td>수주</td><td>이은희</td><td>010-4425-2369</td><td></td><td class="dot-y">●</td><td></td><td></td></tr>
+          <tr><td>36</td><td>수주</td><td>장유미</td><td>010-3232-7704</td><td></td><td></td><td></td><td class="dot-y">●</td></tr>
+          <tr><td>37</td><td>수주</td><td>전태룡</td><td>010-2753-7463</td><td class="dot-y">●</td><td></td><td></td><td></td></tr>
+          <tr><td>38</td><td>수주</td><td>정은진</td><td>010-4745-6596</td><td></td><td></td><td></td><td class="dot-y">●</td></tr>
+          <tr><td>39</td><td>수주</td><td>정직희</td><td>010-4935-1163</td><td class="dot-y">●</td><td></td><td class="dot-y">●</td><td></td></tr>
+          <tr><td>40</td><td>수주</td><td>차복심</td><td>010-2428-2097</td><td></td><td></td><td class="dot-y">●</td><td></td></tr>
+          <tr><td>41</td><td>분주</td><td>김미영</td><td></td><td class="dot-y">●</td><td class="dot-y">●</td><td class="dot-y">●</td><td class="dot-y">●</td></tr>
+          <tr><td>42</td><td>분주</td><td>김선미</td><td></td><td></td><td></td><td class="dot-y">●</td><td></td></tr>
+          <tr><td>43</td><td>분주</td><td>김연하</td><td></td><td></td><td></td><td class="dot-y">●</td><td></td></tr>
+          <tr><td>44</td><td>분주</td><td>김지수</td><td></td><td class="dot-y">●</td><td></td><td class="dot-y">●</td><td></td></tr>
+          <tr><td>45</td><td>분주</td><td>김효진</td><td></td><td class="dot-y">●</td><td class="dot-y">●</td><td class="dot-y">●</td><td></td></tr>
+          <tr><td>46</td><td>분주</td><td>문의정</td><td></td><td class="dot-y">●</td><td class="dot-y">●</td><td class="dot-y">●</td><td class="dot-y">●</td></tr>
+          <tr><td>47</td><td>분주</td><td>박미영</td><td></td><td class="dot-y">●</td><td></td><td></td><td></td></tr>
+          <tr><td>48</td><td>분주</td><td>박현주</td><td></td><td class="dot-y">●</td><td class="dot-y">●</td><td></td><td></td></tr>
+          <tr><td>49</td><td>분주</td><td>성복희</td><td></td><td class="dot-y">●</td><td class="dot-y">●</td><td></td><td></td></tr>
+          <tr><td>50</td><td>분주</td><td>이현화</td><td></td><td></td><td class="dot-y">●</td><td class="dot-y">●</td><td></td></tr>
+          <tr><td>51</td><td>분주</td><td>임대성</td><td></td><td class="dot-y">●</td><td></td><td></td><td></td></tr>
+          <tr><td>52</td><td>분주</td><td>장윤정</td><td></td><td class="dot-y">●</td><td class="dot-y">●</td><td class="dot-y">●</td><td></td></tr>
+          <tr><td>53</td><td>분주</td><td>전상진</td><td></td><td></td><td class="dot-y">●</td><td></td><td></td></tr>
+          <tr><td>54</td><td>분주</td><td>김광윤</td><td></td><td class="dot-y">●</td><td></td><td></td><td></td></tr>
+          <tr><td>55</td><td>분주</td><td>한민경</td><td></td><td class="dot-y">●</td><td class="dot-y">●</td><td></td><td></td></tr>
+          <tr><td>56</td><td>분주</td><td>황성동</td><td></td><td class="dot-y">●</td><td></td><td class="dot-y">●</td><td></td></tr>
+          <tr><td>57</td><td>예비</td><td>김영옥</td><td>010-3437-3674</td><td></td><td></td><td></td><td></td></tr>
+          <tr><td>58</td><td>예비</td><td>최정화</td><td>010-3430-4160</td><td></td><td></td><td></td><td></td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 시범자 명단 -->
+  <div id="member-1" class="sub-content">
+    <div class="team-header"><h2>시범자 명단</h2><div class="team-meta">담당: 여지연 교사</div></div>
+    <div class="card">
+      <div class="card-body" style="padding:6px 8px;overflow-x:auto">
+        <table class="cue-table">
+          <tr><th>날짜</th><th>시간·주제</th><th>반</th><th>역할</th><th>이름</th><th>직분</th><th>연락처</th></tr>
+          <tr><td rowspan="4">6/8(월)</td><td rowspan="4">03:40<br>전체복음</td><td rowspan="4">화요</td><td>전도자</td><td>이미자</td><td>집사</td><td></td></tr>
+          <tr><td>대상자·훈련생</td><td>지은주</td><td>성도</td><td></td></tr>
+          <tr><td></td><td>박재영</td><td>집사</td><td></td></tr>
+          <tr><td></td><td>여지연</td><td>권사</td><td></td></tr>
+          <tr><td rowspan="4">6/9(화)</td><td rowspan="4">10:00<br>서론</td><td rowspan="4">수주</td><td>전도자</td><td>이지혜</td><td>집사</td><td>010-3117-7834</td></tr>
+          <tr><td>대상자·훈련생</td><td>장윤수</td><td>집사</td><td>010-2030-9807</td></tr>
+          <tr><td></td><td>백 남</td><td>집사</td><td>010-7616-5040</td></tr>
+          <tr><td></td><td>박선영</td><td>성도</td><td>010-6407-7262</td></tr>
+          <tr><td rowspan="4">6/9(화)</td><td rowspan="4">11:10<br>은혜·인간·하나님</td><td rowspan="4">수주</td><td>전도자</td><td>전태룡</td><td>집사</td><td>010-2753-7463</td></tr>
+          <tr><td>대상자·훈련생</td><td>백 남</td><td>집사</td><td>010-7616-5040</td></tr>
+          <tr><td></td><td>장윤수</td><td>집사</td><td>010-2030-9807</td></tr>
+          <tr><td></td><td>이지혜</td><td>집사</td><td>010-3117-7834</td></tr>
+          <tr><td rowspan="4">6/9(화)</td><td rowspan="4">12:10<br>예수그리스도·믿음</td><td rowspan="4">화요</td><td>전도자</td><td>조가비</td><td>성도</td><td></td></tr>
+          <tr><td>대상자·훈련생</td><td>조소영</td><td>권사</td><td></td></tr>
+          <tr><td></td><td>박현민</td><td>집사</td><td></td></tr>
+          <tr><td></td><td>김진희</td><td>집사</td><td></td></tr>
+          <tr><td rowspan="4">6/9(화)</td><td rowspan="4">07:00<br>결신</td><td rowspan="4">분주</td><td>전도자</td><td>문의정</td><td>집사</td><td></td></tr>
+          <tr><td>대상자·훈련생</td><td>이승연</td><td>집사</td><td></td></tr>
+          <tr><td></td><td>이연나</td><td>권사</td><td></td></tr>
+          <tr><td></td><td>김미영</td><td>집사</td><td></td></tr>
+          <tr><td rowspan="4">6/10(수)</td><td rowspan="4">09:20<br>즉석양육</td><td rowspan="4">분주</td><td>전도자</td><td>박현주</td><td>성도</td><td></td></tr>
+          <tr><td>대상자·훈련생</td><td>이연나</td><td>권사</td><td></td></tr>
+          <tr><td></td><td>이승연</td><td>집사</td><td></td></tr>
+          <tr><td></td><td>김미영</td><td>집사</td><td></td></tr>
+          <tr><td rowspan="6">6/11(목)</td><td rowspan="6">09:10<br>상황에 맞는<br>복음제시(스킷)</td><td rowspan="6">화요</td><td>훈련자</td><td>백혜정</td><td>집사</td><td></td></tr>
+          <tr><td>훈련생1</td><td>이지윤</td><td>집사</td><td></td></tr>
+          <tr><td>훈련생2</td><td>김소영</td><td>성도</td><td></td></tr>
+          <tr><td>할아버지</td><td>전지혜</td><td>집사</td><td></td></tr>
+          <tr><td>불안한사람</td><td>이미자</td><td>집사</td><td></td></tr>
+          <tr><td>학생</td><td>복경미</td><td>성도</td><td></td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="notice">시범자: 해당시간 1시간 전 710호 도착 · 대상자·훈련생: 30분 전 도착</div>
+  </div>
+
+  <!-- 평가·수료 명단 -->
+  <div id="member-2" class="sub-content">
+    <div class="team-header"><h2>구두복음제시 평가 · 수료식 배지 명단</h2><div class="team-meta">6/12(금)</div></div>
+    <div class="card">
+      <div class="card-title"><span class="icon">📝</span> 구두복음제시 평가 점검자 (6/12 9:10~10:10, 22명)</div>
+      <div class="card-body">
+        <table class="info-table">
+          <tr><th>화요반 (9명)</th><td>김소영, 김은정, 김주경, 김태경, 박경선, 박정민, 서소아, 안미현, 오태근</td></tr>
+          <tr><th>분주반 (8명)</th><td>김미영, 김지수, 김효진, 문의정, 박현주, 임대성, 장윤정, 황성돈</td></tr>
+          <tr><th>수주반 (5명)</th><td>계인선, 박선영, 윤성원, 장유미, 정은진</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">🏅</span> 수료식 배지 수여 훈련자 (6/12 13:30~15:00, 22명)</div>
+      <div class="card-body">
+        <table class="info-table">
+          <tr><th>화요반 (5명)</th><td>김근혜, 김소영, 김태경, 박경선, 오태근</td></tr>
+          <tr><th>분주반 (8명)</th><td>김미영, 김지수, 김효진, 문의정, 박미영, 이현화, 한민경, 황성돈</td></tr>
+          <tr><th>수주반 (1명)</th><td>윤성원</td></tr>
+          <tr><th>교사 (8명)</th><td>김영선, 김진희, 박재영, 박현민, 배미선, 여지연, 유연희, 전태룡</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 중보기도 명단 -->
+  <div id="member-3" class="sub-content">
+    <div class="team-header"><h2>중보기도팀 명단</h2><div class="team-meta">담당: 배미선 / OB: 송일령 · 오전 10:00~12:00 / 오후 2:00~3:30</div></div>
+    <div class="card">
+      <div class="card-title"><span class="icon">🙏</span> 오전 기도팀 (10:00~12:00)</div>
+      <div class="card-body" style="padding:6px 8px;overflow-x:auto">
+        <table class="prayer-table">
+          <tr><th>인도자</th><th>6/9(화)</th><th>6/10(수)</th><th>6/11(목)</th><th>6/12(금)</th></tr>
+          <tr class="pt-head"><td>인도자</td><td>장미애 권사</td><td>이혜희 권사</td><td>이정진 권사</td><td>이미경 권사</td></tr>
+          <tr><td class="pt-head">교사</td><td>채길령,김예리<br>이로사,안미현<br>지민경,박영숙<br>하상희,장현정<br>박영미,최지영<br>이혜숙,박준용<br>이은영,양명옥<br>권진영,이문숙<br>이난희,김미라<br>김소영,김현봉<br>임영희(21명)</td><td>김현진 교사<br>손은진,안미현<br>이민정,김민주<br>장현정,전하나<br>임영희,서미나<br>장현정,김민정<br>김혜진,박선영<br>박정인,장윤수<br>정선주,최현미<br>김정연(17명)</td><td>김효선,이은경<br>송일령,장윤수<br>안미현,지민경<br>이민정,이로사<br>박선영,전지혜<br>장현정,서소아<br>김수미,박인아<br>장효정,김은한<br>장현정,임정희<br>백혜정,채길영<br>이지혜,김정연(22명)</td><td>김수진 교사<br>전경주,최윤정<br>안미현,이소영<br>최현미,이미자<br>이민정,장현정<br>장효정,전하나<br>전춘화,이지윤<br>김민정,장현정<br>전지혜,동진형<br>신지은,전춘화<br>이지혜,박정인<br>박선영,이한주<br>김은혜,장희순<br>조경란(25명)</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">🙏</span> 오후 기도팀 (2:00~3:30)</div>
+      <div class="card-body" style="padding:6px 8px;overflow-x:auto">
+        <table class="prayer-table">
+          <tr><th>인도자</th><th>6/9(화)</th><th>6/10(수)</th><th>6/11(목)</th></tr>
+          <tr class="pt-head"><td>인도자</td><td>송일령 권사</td><td>김근혜 권사</td><td>임애영 권사</td></tr>
+          <tr><td class="pt-head">신현애 교사</td><td>김근혜,김상심<br>장미애,이지윤<br>조근아,박영미<br>박인아,박정민<br>박준용,유수영<br>이미숙,현미숙<br>이민정,김순이<br>안미현,임정희<br>허은미,박재윤<br>이지혜,박정인<br>백남,정유진<br>박천희(23명)</td><td>송일령,이소영<br>채미양,전지혜<br>신경윤,김순이<br>이문숙,허은미<br>김태경,박재윤<br>김민정,곽경은<br>박지혜,정은숙<br>김유진,박영미<br>손영화,이혜숙<br>유미선,김은한<br>박정인,유정훈<br>김선미(23명)</td><td>박준용,김진아<br>임정희,전지혜<br>이정화,이정아<br>서해나,서수은<br>채미양,서소아<br>전춘화,김윤희<br>김태경,정지은<br>이민정,이영선<br>권민희,정현주<br>김경옥,김영숙<br>이경희,강부송<br>박인덕(23명)</td></tr>
+          <tr><td class="pt-head">박재영 교사</td><td>이지혜,송일령<br>김은일,이소영<br>장효정,박준용<br>안미정,백선영<br>정소영,박재윤<br>김민선,공은아<br>이승민,정하순<br>황은성,김은한<br>성언수,임정빈<br>백남,김영숙(20명)</td><td colspan="2"></td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="notice">💡 중보기도 시간: 오전 10:00~12:00 / 오후 1:30~3:30 · 중보기도실(그룹기도실)</div>
+  </div>
+
+  <!-- 조직도 -->
+  <div id="member-4" class="sub-content">
+    <div class="team-header"><h2>조직도</h2><div class="team-meta">제349회 지구촌교회 국제전도폭발 지도자 임상훈련</div></div>
+    <div class="card">
+      <div class="card-title"><span class="icon">👑</span> 담임 / 담당 교역자</div>
+      <div class="card-body">
+        <table class="info-table">
+          <tr><th>담임목사</th><td>김우준 담임목사</td></tr>
+          <tr><th>담당 교역자</th><td>유대연 목사 / 김찬영 전도사 / 정해성 전도사</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">🏛</span> 총괄 진행팀</div>
+      <div class="card-body">
+        <table class="info-table">
+          <tr><th>팀장 (정)</th><td>유연희</td></tr>
+          <tr><th>팀장 (부)</th><td>이운학, 이지혜</td></tr>
+          <tr><th>총무 (정)</th><td>최정희</td></tr>
+          <tr><th>총무 (부)</th><td>조호점, 전태룡</td></tr>
+          <tr><th>회계 (정)</th><td>김수진</td></tr>
+          <tr><th>회계 (부)</th><td>박경희, 장유미</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">📋</span> 행정·진행팀 (총괄: 최정희 총무)</div>
+      <div class="card-body">
+        <table class="info-table">
+          <tr><th>등록·안내</th><td>유연희, 김영선</td></tr>
+          <tr><th>강의실 도우미</th><td>최정희 총무</td></tr>
+          <tr><th>강의실 준비·세팅</th><td>최정희, 김진희, 김영선</td></tr>
+          <tr><th>안내·비품 팀장</th><td>박현민</td></tr>
+          <tr><th>안내 팀원</th><td>김현진, 변희남, 이지혜, 임주현(월), 박선영(월)</td></tr>
+          <tr><th>비품 확인</th><td>신현애, 박재영</td></tr>
+          <tr><th>연회 간증자 선정</th><td>조호점 총무, 전태룡 총무</td></tr>
+          <tr><th>간증문 점검</th><td>손은진, 윤승원, 이미경, 이지혜, 임애영</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">🎵</span> 찬양팀 구성</div>
+      <div class="card-body">
+        <table class="info-table">
+          <tr><th>찬양인도</th><td>정해성 전도사</td></tr>
+          <tr><th>반주자</th><td>김근혜</td></tr>
+          <tr><th>싱어</th><td>박재영, 한선영, 김영선, 김진희, 배미선, 조소영</td></tr>
+          <tr><th>중보기도 단장</th><td>배미선</td></tr>
+          <tr><th>중보기도 단원</th><td>반별 신청자 및 중보기도팀 (20명 내외)</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="icon">🚌</span> 시설·숙소팀</div>
+      <div class="card-body">
+        <table class="info-table">
+          <tr><th>데코레이션</th><td>김옥화 (생화 담당)</td></tr>
+          <tr><th>버스·숙소</th><td>여상직(월), 이상진(수), 전태룡(화), 윤성원(목)</td></tr>
+          <tr><th>식사·간식</th><td>김수진, 박재영, 이종혜, 신현애</td></tr>
+          <tr><th>강사 간식</th><td>박재영</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════════════ MEALS ══════════════════ -->
+<div id="tab-meals" class="tab-content">
+<div class="content">
+
+  <div class="team-header" style="margin-bottom:12px">
+    <h2>식단 · 간식 메뉴</h2>
+    <div class="team-meta">담당: 김수진 / 중식·석식 장소: 블레싱 VIP룸</div>
+  </div>
+
+  <!-- 중식 -->
+  <div class="card">
+    <div class="card-title"><span class="icon">🍱</span> 중식 메뉴</div>
+    <div class="card-body" style="padding:6px 8px;overflow-x:auto">
+      <table class="meal-table">
+        <tr><th></th><th>6/8(월)</th><th>6/9(화)</th><th>6/10(수)</th><th>6/11(목)</th><th>6/12(금)</th></tr>
+        <tr><td class="meal-label">메뉴</td><td>잡곡밥<br>설렁탕+소면<br>숯불제육볶음<br>모듬쌈채소+쌈장<br>콩나물무침<br>배추김치</td><td>잡곡밥<br>소고기미역국<br>한방찜닭<br>옥수수계란찜<br>얼갈이생채<br>배추김치<br>양배추 샐러드</td><td>잡곡밥<br>해물된장찌개<br>언양식바싹불고기<br>오절판&쌈무<br>파래자반볶음<br>배추김치</td><td>잡곡밥<br>궁중육개장<br>콩나물동태찜<br>온두부&볶음김치<br>돌나물유자청무침<br>열무김치<br>양배추샐러드</td><td>잡곡밥<br>버섯샤브전골<br>돼지갈비찜<br>한식오색잡채<br>오이도라지무침<br>배추김치/식혜<br>양배추샐러드/참외</td></tr>
+        <tr><td class="meal-label">배식</td><td>11:20~<br>채민지<br>김근혜</td><td>12:50~<br>송일령<br>채길령</td><td>12:40~<br>이지혜<br>홍성아</td><td>11:50~<br>송일령<br>백선원</td><td>12:30~<br>백선원<br>손은진</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 석식 -->
+  <div class="card">
+    <div class="card-title"><span class="icon">🌙</span> 석식 메뉴</div>
+    <div class="card-body" style="padding:6px 8px;overflow-x:auto">
+      <table class="meal-table">
+        <tr><th></th><th>6/8(월)</th><th>6/9(화)</th><th>6/10(수)</th><th>6/11(목)</th></tr>
+        <tr><td class="meal-label">메뉴</td><td style="background:#fdf4ff;color:#9333ea;font-weight:700;text-align:center">월요 연회<br>(갓피플뷔페)</td><td>콩나물밥&양념장<br>닭개장<br>김치오징어전<br>도토리묵<br>상추무침<br>방풍나물무침<br>깍두기</td><td>잡곡밥<br>미나리돼지곰탕<br>생선탕수육<br>감자채볶음<br>치커리생채<br>깍두기<br>양배추샐러드</td><td>곤드레밥&달래장<br>바지락시금치국<br>닭고기오븐구이<br>야채계란말이<br>실곤약겨자냉채<br>배추김치</td></tr>
+        <tr><td class="meal-label">배식</td><td>—</td><td>18:00~<br>전경주</td><td>18:00~<br>이종혜<br>박현민</td><td>17:40~<br>이지혜<br>백선원</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 월요 연회 메뉴 -->
+  <div class="card">
+    <div class="card-title"><span class="icon">🥂</span> 월요 연회 메뉴 (711호 · 갓피플뷔페 28,000원)</div>
+    <div class="card-body">
+      <div style="font-size:12px;line-height:2;color:var(--dark)">
+        안심찹스테이크 / 해물팔보채 / 훈제오리구이 / 깐풍기 / 잡채 / 스파게티&토마토소스 / 영양밥 / 소고기무우국 / 냉채불고기 / 해파리냉채 / 홍어회야채무침 / 탕평채 / 배추김치 / 모듬야채샐러드 / 연어 샐러드 / 과일샐러드 / 계절과일 / 탄산음료·원두커피
+      </div>
+    </div>
+  </div>
+
+  <!-- 간식 메뉴 -->
+  <div class="card">
+    <div class="card-title"><span class="icon">🍪</span> 간식 메뉴 (711호)</div>
+    <div class="card-body" style="padding:6px 8px;overflow-x:auto">
+      <table class="meal-table">
+        <tr><th></th><th>6/8(월)</th><th>6/9(화)</th><th>6/10(수)</th><th>6/11(목)</th><th>6/12(금)</th></tr>
+        <tr><td class="meal-label">오전</td><td>비타500<br>아몬드 전병<br>(개인 테이블 비치)</td><td>떠먹는 요거트<br>미니 카스테라</td><td>휘낭시에<br>이롬 쥬스</td><td>구운 계란<br>요구르트</td><td>망개떡·굴레떡<br>식혜</td></tr>
+        <tr><td class="meal-label">오후</td><td>—</td><td>잔기지떡<br>찰보리빵</td><td>사과<br>에그 샌드위치</td><td>호두 과자<br>컵수박</td><td>—</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 숙소 간식 -->
+  <div class="card">
+    <div class="card-title"><span class="icon">🏨</span> 숙소 간식 (6/8 월요일 저녁 1회 제공)</div>
+    <div class="card-body">
+      <div style="font-size:12px;line-height:2;color:var(--dark)">
+        홍삼스틱 ×2 / 멀티비타민 ×2 / 하루견과 ×2 / 영양바 ×2 / 과자류 ×1 / 초콜릿 ×1 / 채소 쥬스 ×1 / 아몬드 브리즈 ×1
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+</body>
+</html>
